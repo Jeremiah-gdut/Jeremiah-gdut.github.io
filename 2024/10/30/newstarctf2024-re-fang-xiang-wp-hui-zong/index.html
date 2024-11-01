@@ -5,11 +5,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="NewStarCTF2024 Re方向wp汇总, CTF, Re, Android, Rust, Go">
-    <meta name="description" content="Week 1 Base64
+    <meta name="description" content="Week 1
+Base64
+题目附件如下：
 先放IDA中打开
 
 可以看到先让我们输入了flag，很显然str就是我们的输入，长度为112.下面进行了判断，跟一串奇怪的字符串进行了判断，这串字符串就是加密过后的密文。
-下一步的思路就是去看看是哪个函数对str">
+下一步的思路就是去看看是">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -399,14 +401,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2024-10-30
+                    2024-11-01
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    260
+                    266
                 </div>
                 
 
@@ -431,7 +433,9 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1>Week 1 Base64</h1>
+                <h1>Week 1</h1>
+<h2 id="Base64">Base64</h2>
+<p>题目附件如下：</p>
 <p>先放IDA中打开</p>
 <p><img src="https://jeremiah.oss-cn-shenzhen.aliyuncs.com/picture/202410302324235.png" alt=""></p>
 <p>可以看到先让我们输入了flag，很显然str就是我们的输入，长度为112.下面进行了判断，跟一串奇怪的字符串进行了判断，这串字符串就是加密过后的密文。</p>
@@ -442,6 +446,7 @@
 <p>下面给出exp</p>
 <figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给定的密文和映射表</span></span><br><span class="line">cipher_text = <span class="string">"g84Gg6m2ATtVeYqUZ9xRnaBpBvOVZYtj+Tc="</span></span><br><span class="line">custom_table = <span class="string">"WHydo3sThiS7ABLElO0k5trange+CZfVIGRvup81NKQbjmPzU4MDc9Y6q2XwFxJ/"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将映射表转化为标准Base64字符表顺序</span></span><br><span class="line">standard_table = <span class="string">"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建解码表：将映射表字符转换到标准Base64字符</span></span><br><span class="line">decode_table = <span class="built_in">str</span>.maketrans(custom_table, standard_table)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用映射表对密文进行字符替换</span></span><br><span class="line">translated_cipher = cipher_text.translate(decode_table)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解码Base64</span></span><br><span class="line">decoded_data = base64.b64decode(translated_cipher)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"解码后的数据:"</span>, decoded_data)</span><br></pre></td></tr></tbody></table></figure>
 <p>得到flag：<strong>flag{y0u_kn0w_base64_well}</strong></p>
+<h2 id=""></h2>
 
                 
             </div>

@@ -1,0 +1,148 @@
+{
+  "projectVersion": 1,
+  "files": [
+    "ezAndroidStudy.apk"
+  ],
+  "treeExpansions": [
+    [
+      "资源文件",
+      "ezAndroidStudy.apk"
+    ],
+    [
+      "lib",
+      "资源文件",
+      "ezAndroidStudy.apk"
+    ],
+    [
+      "res",
+      "资源文件",
+      "ezAndroidStudy.apk"
+    ],
+    [
+      "raw",
+      "res",
+      "资源文件",
+      "ezAndroidStudy.apk"
+    ]
+  ],
+  "codeData": {
+    "comments": [],
+    "renames": []
+  },
+  "openTabs": [
+    {
+      "type": "resource",
+      "tabPath": "AndroidManifest.xml",
+      "subPath": "",
+      "caret": 1792,
+      "view": {
+        "x": 0,
+        "y": 142
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "work.pangbai.ezandroidstudy.MainActivity",
+      "subPath": "java",
+      "caret": 674,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "resource",
+      "tabPath": "res/xml/backup_rules.xml",
+      "subPath": "",
+      "caret": 60,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "resource",
+      "tabPath": "res/xml/data_extraction_rules.xml",
+      "subPath": "",
+      "caret": 0,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "work.pangbai.ezandroidstudy.Homo",
+      "subPath": "java",
+      "caret": 227,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "resource",
+      "tabPath": "res/drawable/meow.gif",
+      "subPath": "",
+      "caret": 0,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "resource",
+      "tabPath": "res/drawable/ic.jpg",
+      "subPath": "",
+      "caret": 0,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "resource",
+      "tabPath": "res/layout/activity_main.xml",
+      "subPath": "",
+      "caret": 1390,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "resource",
+      "tabPath": "res/raw/flag4.txt",
+      "subPath": "",
+      "caret": 0,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": true
+    },
+    {
+      "type": "resource",
+      "tabPath": "res/values/strings.xml",
+      "subPath": "",
+      "caret": 4577,
+      "view": {
+        "x": 0,
+        "y": 500
+      },
+      "active": false
+    }
+  ],
+  "cacheDir": "C:\\Users\\Jeremiah\\AppData\\Local\\skylot\\jadx\\cache\\projects\\ezAndroidStudy-528c3b341c9b5e978c63363bf12fbe6a",
+  "enableLiveReload": false,
+  "searchHistory": [],
+  "pluginOptions": {}
+}

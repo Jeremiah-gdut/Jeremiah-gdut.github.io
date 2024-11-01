@@ -1,0 +1,171 @@
+{
+  "projectVersion": 1,
+  "files": [
+    "PlzDebugMe_1.0_sign.apk"
+  ],
+  "treeExpansions": [
+    [
+      "源代码",
+      "PlzDebugMe_1.0_sign.apk"
+    ],
+    [
+      "资源文件",
+      "PlzDebugMe_1.0_sign.apk"
+    ],
+    [
+      "work.pangbai",
+      "源代码",
+      "PlzDebugMe_1.0_sign.apk"
+    ],
+    [
+      "tool",
+      "work.pangbai",
+      "源代码",
+      "PlzDebugMe_1.0_sign.apk"
+    ],
+    [
+      "work.pangbai.tool.MHander",
+      "tool",
+      "work.pangbai",
+      "源代码",
+      "PlzDebugMe_1.0_sign.apk"
+    ],
+    [
+      "debugme",
+      "work.pangbai",
+      "源代码",
+      "PlzDebugMe_1.0_sign.apk"
+    ],
+    [
+      "work.pangbai.tool.App",
+      "tool",
+      "work.pangbai",
+      "源代码",
+      "PlzDebugMe_1.0_sign.apk"
+    ]
+  ],
+  "codeData": {
+    "comments": [],
+    "renames": [
+      {
+        "nodeRef": {
+          "refType": "METHOD",
+          "declClass": "work.pangbai.debugme.FishEnc",
+          "shortId": "\u003cinit\u003e(Ljava/lang/String;)V"
+        },
+        "codeRef": {
+          "attachType": "VAR",
+          "index": 196608
+        },
+        "newName": "key"
+      },
+      {
+        "nodeRef": {
+          "refType": "METHOD",
+          "declClass": "work.pangbai.debugme.FishEnc",
+          "shortId": "doEnc(Ljava/lang/String;)Ljava/lang/String;"
+        },
+        "codeRef": {
+          "attachType": "VAR",
+          "index": 196608
+        },
+        "newName": "input"
+      },
+      {
+        "nodeRef": {
+          "refType": "METHOD",
+          "declClass": "work.pangbai.debugme.MainActivity",
+          "shortId": "onClick(Landroid/view/View;)V"
+        },
+        "codeRef": {
+          "attachType": "VAR",
+          "index": 393224
+        },
+        "newName": "input"
+      }
+    ]
+  },
+  "openTabs": [
+    {
+      "type": "class",
+      "tabPath": "com.getkeepsafe.relinker.ApkLibraryInstaller",
+      "subPath": "java",
+      "caret": 601,
+      "view": {
+        "x": 0,
+        "y": 322
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.getkeepsafe.relinker.BuildConfig",
+      "subPath": "java",
+      "caret": 180,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.getkeepsafe.relinker.TextUtils",
+      "subPath": "java",
+      "caret": 228,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "work.pangbai.debugme.MainActivity",
+      "subPath": "java",
+      "caret": 5418,
+      "view": {
+        "x": 0,
+        "y": 903
+      },
+      "active": true
+    },
+    {
+      "type": "class",
+      "tabPath": "work.pangbai.debugme.FishEnc",
+      "subPath": "java",
+      "caret": 894,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "resource",
+      "tabPath": "AndroidManifest.xml",
+      "subPath": "",
+      "caret": 2565,
+      "view": {
+        "x": 0,
+        "y": 316
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "work.pangbai.tool.App",
+      "subPath": "java",
+      "caret": 346,
+      "view": {
+        "x": 0,
+        "y": 93
+      },
+      "active": false
+    }
+  ],
+  "cacheDir": "C:\\Users\\Jeremiah\\AppData\\Local\\skylot\\jadx\\cache\\projects\\PlzDebugMe_1.0_sign-10b155c80c3926ebe8dc91dbf2e73a23",
+  "enableLiveReload": false,
+  "searchHistory": [],
+  "pluginOptions": {}
+}
